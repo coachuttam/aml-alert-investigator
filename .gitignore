@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+.env
+# Raw alerts are large and regenerate exactly from the seed.
+data/raw/

@@ -1,0 +1,6 @@
+# Installed on Colab only. Not needed on the laptop.
+transformers>=4.46
+peft>=0.13
+bitsandbytes>=0.44
+accelerate>=1.0
+datasets>=3.0
