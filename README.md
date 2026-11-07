@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the feature numbers, the alert summaries and the dataset files and the rules baseline with scoring are done (58 tests). Fine-tuning, evaluation and the app come next. No model results exist yet, and the results table below is filled in only after the evaluation has been run.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (72 tests). The fine-tuning script and Colab notebook are written but not run yet. Model evaluation and the app come next. No model results exist yet, and the results table below is filled in only after the evaluation has been run.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -50,7 +50,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 58 tests
+python -m pytest -q           # 72 tests
 python -m src.evaluate        # scores the rules baseline on validation and test
 ```
 
@@ -69,8 +69,8 @@ aml-alert-investigator/
 ├─ PRD.md  ARCHITECTURE.md  AGENTS.md  DESIGN_SYSTEM.md  README.md
 ├─ src/        models.py  names.py  patterns.py  generator.py  schema.py   (done)
 │              money.py  features.py  templates.py  dataset.py           (done)
-│              metrics.py  rules.py  evaluate.py                         (done)
-│              finetune.py  predict.py  investigator.py                  (planned)
+│              metrics.py  rules.py  evaluate.py  prompt.py  finetune.py (written)
+│              predict.py (written)  investigator.py                    (planned)
 ├─ notebooks/  finetune_qlora.ipynb      (thin Colab wrapper)
 ├─ data/       train, validation, test and held-out sets
 ├─ tests/

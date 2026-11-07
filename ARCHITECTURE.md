@@ -37,7 +37,7 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/schema.py` | Label lists, JSON schema, output validation, banned wording, faithfulness check |
 | `src/prompt.py` | The system prompt and answer format, shared by training and inference |
 | `src/finetune.py` | QLoRA training script (runs on Colab); loss on the answer only; saves adapter and checkpoints |
-| `src/predict.py` | Loads the base model plus adapter; classifies an alert; validates; retries once |
+| `src/predict.py` | Loads the base model plus adapter; classifies an alert; validates with `schema.py`; retries once; saves answers to `results/` |
 | `src/evaluate.py` | Scores systems on validation and test; held-out only with `--final` |
 | `src/investigator.py` | The six-step workflow, case memory, audit log |
 | `app.py` | Streamlit UI: Alerts, Alert detail, Evaluation, Audit log |
