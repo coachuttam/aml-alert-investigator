@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (72 tests). The fine-tuning script and Colab notebook are written but not run yet. Model evaluation and the app come next. No model results exist yet, and the results table below is filled in only after the evaluation has been run.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (77 tests). The model has been fine-tuned and scored on validation and test (table below). The held-out run, the investigator workflow, the app and the Hugging Face release come next.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -29,17 +29,21 @@ flowchart LR
 
 ## Results
 
-Not run yet. Targets are listed in the PRD; results will appear here after the evaluation.
+Scored on the validation and test sets, which share wording templates with the training data. The held-out set (new wording, larger incomes) has not been scored yet; it is run once at the end.
 
-| System | Macro-F1 (test) | Macro-F1 (held-out) | False-positive rate on hard negatives | JSON validity |
-| --- | --- | --- | --- | --- |
-| A1. Rules, default thresholds | 0.962 | not run | 8.1% | n/a |
-| A2. Rules, tuned on train | 0.990 | not run | 0.0% | n/a |
-| B. Base model, prompted | pending | pending | pending | pending |
-| C. Fine-tuned model | pending | pending | pending | pending |
-| D. Prompted Claude (optional) | pending | pending | pending | pending |
+| System | Macro-F1 (test) | Macro-F1 (held-out) | False alarms on normal alerts (test) | Valid JSON (test) | Risk accuracy (test) |
+| --- | --- | --- | --- | --- | --- |
+| A1. Rules, default thresholds | 0.962 | not run | 8.1% | n/a | n/a |
+| A2. Rules, tuned on train | 0.990 | not run | 0.0% | n/a | n/a |
+| B. Base model, prompted only | 0.135 | not run | 100% | 88.5% | 23.8% |
+| C. Fine-tuned model | 1.000 | not run | 0.0% | 100% | 99.8% |
+| D. Prompted Claude (optional) | not run | not run | not run | not run | not run |
 
-Rules read the computed numbers directly, so they score very high on the typology label. The fine-tuned model reads text only, and also returns a risk level and a reason, which rules do not. If it only matches the tuned rules on typology, this table will say so.
+How to read this:
+- The fine-tuned model ties the tuned rules on typology (a gap of about two alerts out of 400). The rules read exact computed numbers; the model reads only text, and also returns a risk level and a reason that passes the faithfulness check, which the rules cannot do.
+- The default rules flag 80% of the "salary then commitments" look-alikes. The fine-tuned model flags none.
+- The base model was told the label names but not what they mean, and was given no examples, so it shows what training added, not what the best possible prompt could do.
+- The task is easy by design: the summary prints the numbers that decide the label. A near-perfect score on test is expected, and the held-out set is the real check.
 
 ## Quick start
 
@@ -50,7 +54,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 72 tests
+python -m pytest -q           # 77 tests
 python -m src.evaluate        # scores the rules baseline on validation and test
 ```
 
