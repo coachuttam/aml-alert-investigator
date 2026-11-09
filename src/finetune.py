@@ -25,6 +25,7 @@ EPOCHS = 2
 BATCH_SIZE = 4
 ACCUMULATION_STEPS = 4        # effective batch of 16 without needing more memory
 SAVE_EVERY_STEPS = 100        # checkpoints go to Drive so a disconnect loses little
+WARMUP_SHARE = 0.05           # first 5% of steps ramp the learning rate up gently
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 
@@ -85,6 +86,12 @@ def last_checkpoint(output_dir: Path) -> Optional[str]:
     return str(checkpoints[-1]) if checkpoints else None
 
 
+def count_warmup_steps(example_count: int, epochs: int) -> int:
+    """Warmup length in steps. Counted by hand because libraries rename the ratio option."""
+    steps_per_epoch = -(-example_count // (BATCH_SIZE * ACCUMULATION_STEPS))   # round up
+    return max(1, int(steps_per_epoch * epochs * WARMUP_SHARE))
+
+
 def train(output_dir: Path, base_model: str, epochs: int, limit: Optional[int]) -> None:
     """Fine-tune and save the adapter into output_dir."""
     from transformers import Trainer, TrainingArguments
@@ -99,7 +106,8 @@ def train(output_dir: Path, base_model: str, epochs: int, limit: Optional[int]) 
         per_device_train_batch_size=BATCH_SIZE, gradient_accumulation_steps=ACCUMULATION_STEPS,
         fp16=True, logging_steps=10, save_steps=SAVE_EVERY_STEPS, eval_steps=SAVE_EVERY_STEPS,
         eval_strategy="steps", save_total_limit=2, report_to="none",
-        lr_scheduler_type="cosine", warmup_ratio=0.05, remove_unused_columns=False)
+        lr_scheduler_type="cosine",
+        warmup_steps=count_warmup_steps(len(train_data), epochs), remove_unused_columns=False)
     trainer = Trainer(model=model, args=arguments, train_dataset=train_data,
                       eval_dataset=validation_data,
                       data_collator=lambda batch: pad_batch(batch, tokenizer.pad_token_id))

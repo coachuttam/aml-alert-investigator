@@ -48,3 +48,9 @@ def test_loss_is_switched_off_for_the_prompt_and_on_for_the_answer():
 def test_long_examples_are_cut_to_the_maximum_length():
     tokens = tokenize_example(EXAMPLE, FakeTokenizer(), max_length=20)
     assert len(tokens["input_ids"]) == 20
+
+
+def test_warmup_is_at_least_one_step_and_about_five_percent_of_training():
+    from src.finetune import count_warmup_steps
+    assert count_warmup_steps(64, 1) == 1
+    assert count_warmup_steps(2400, 2) == 15      # 150 steps per epoch x 2 epochs x 5%
