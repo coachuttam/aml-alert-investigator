@@ -3,7 +3,10 @@
 The checking logic (`classify_with_retry`) needs no GPU, so it is tested with a fake
 model. `load_model` and `generate_text` need torch and run on Colab or a GPU machine:
 
-    python -m src.predict --adapter /path/to/adapter --split test --output results/test_finetuned.jsonl
+    python -m src.predict --adapter /path/to/adapter --split test --output results/finetuned_test.jsonl
+    python -m src.predict --split test --output results/base_test.jsonl      (plain base model)
+
+The held-out split may be generated, but must not be scored or read before the final run.
 """
 from __future__ import annotations
 
@@ -83,7 +86,7 @@ def main() -> None:
     """Run a model over one split and save its answers."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--adapter", default=None, help="adapter folder; omit to run the plain base model")
-    parser.add_argument("--split", default="test", choices=["validation", "test"])
+    parser.add_argument("--split", default="test", choices=["validation", "test", "heldout"])
     parser.add_argument("--output", required=True)
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
