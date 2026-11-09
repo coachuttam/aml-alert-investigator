@@ -1,0 +1,300 @@
+{"alert_id": "A-heldout-0001", "valid": false, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0002", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "100% return of funds", "problems": []}
+{"alert_id": "A-heldout-0003", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "Multiple large cash payments, frequent movement within 2 days, significant return of funds after a few days", "problems": []}
+{"alert_id": "A-heldout-0004", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "turnover > 3x income", "problems": []}
+{"alert_id": "A-heldout-0005", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "13 distinct remitters paid in ₹2,50,700", "problems": []}
+{"alert_id": "A-heldout-0006", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals within seven days", "problems": []}
+{"alert_id": "A-heldout-0007", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 8", "problems": []}
+{"alert_id": "A-heldout-0008", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash payments followed by a significant return", "problems": []}
+{"alert_id": "A-heldout-0009", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of 0.4 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0010", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 9, totalling ₹4,05,000", "problems": []}
+{"alert_id": "A-heldout-0011", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "14 large cash deposits totaling ₹6,32,700", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0012", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to ATM withdrawal ₹13,000, Landlord ₹6,500, Electricity board ₹3,453", "problems": []}
+{"alert_id": "A-heldout-0013", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "₹1,17,700", "problems": []}
+{"alert_id": "A-heldout-0014", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 9, totalling ₹4,09,800", "problems": []}
+{"alert_id": "A-heldout-0015", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "14 cash deposits totaling ₹6,30,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0016", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of ₹2,647", "problems": []}
+{"alert_id": "A-heldout-0017", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "cash deposited > ₹50,000; no big pay-ins; most money goes to specific accounts", "problems": []}
+{"alert_id": "A-heldout-0018", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0019", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0020", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 3", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0021", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "count=23", "problems": []}
+{"alert_id": "A-heldout-0022", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "10", "problems": []}
+{"alert_id": "A-heldout-0023", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "8 cash deposits totaling ₹3,52,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0024", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited close to but under ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0025", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Cash deposit of ₹4,16,900 close to the ₹50,000 limit", "problems": []}
+{"alert_id": "A-heldout-0026", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "95% of payments went out within 5 days", "problems": []}
+{"alert_id": "A-heldout-0027", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0028", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹48,700", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0029", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 50% of monthly income", "problems": []}
+{"alert_id": "A-heldout-0030", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 0.0%; funds returned = 0", "problems": []}
+{"alert_id": "A-heldout-0031", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "14 cash deposits totaling ₹6,00,000 close to the ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0032", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Multiple large cash inflows followed by returns", "problems": []}
+{"alert_id": "A-heldout-0033", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹30,406 > ₹20,300", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0034", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances exceeding 97% of the funds sent", "problems": []}
+{"alert_id": "A-heldout-0035", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows, frequent movement within 2 days, significant return of funds, and a single individual receiving most of the proceeds.", "problems": []}
+{"alert_id": "A-heldout-0036", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "big_pay_ins", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0037", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 8", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0038", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "85%", "problems": []}
+{"alert_id": "A-heldout-0039", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "13 large cash deposits totaling ₹6,01,000", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0040", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "100% return of funds within 15 days", "problems": []}
+{"alert_id": "A-heldout-0041", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0042", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹63,014 > ₹54,000", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0043", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "remittances from 16 distinct remitters totaling ₹3,68,500 over 4 days", "problems": []}
+{"alert_id": "A-heldout-0044", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows, frequent movement within 2 days, significant return of funds", "problems": []}
+{"alert_id": "A-heldout-0045", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of ₹7,347 from 0% of income", "problems": []}
+{"alert_id": "A-heldout-0046", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹88,900", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0047", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "16 separate pay-ins totaling ₹3,27,400", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0048", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "13 distinct remitters paid", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0049", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "92% of payments went out within 5 days", "problems": []}
+{"alert_id": "A-heldout-0050", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to Electronics store ₹8,500", "problems": []}
+{"alert_id": "A-heldout-0051", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited > ₹50,000; moved on to others within 2 days", "problems": []}
+{"alert_id": "A-heldout-0052", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances greater than 10% of monthly income", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0053", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "100% return on remittances", "problems": []}
+{"alert_id": "A-heldout-0054", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "14.3", "problems": []}
+{"alert_id": "A-heldout-0055", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0056", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "13 distinct remitters paid ₹28,380", "problems": ["typology is not one of the allowed labels", "reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0057", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "6 cash deposits totaling ₹2,64,600", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0058", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "12 distinct remitters paid ₹3,03,800", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0059", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Big pay-in followed by return", "problems": []}
+{"alert_id": "A-heldout-0060", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0061", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to landlord ₹57,000, mobile recharge ₹22,140, food delivery ₹9,040", "problems": []}
+{"alert_id": "A-heldout-0062", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "100% return of large amount within 15 days", "problems": []}
+{"alert_id": "A-heldout-0063", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0064", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 26", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0065", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances totaling 54.0 times monthly income were remitted to three distinct individuals within two days", "problems": []}
+{"alert_id": "A-heldout-0066", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "27% of funds remitted were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0067", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "Multiple large cash payments from different sources totaling ₹4,17,500 within 5 days, with no return.", "problems": []}
+{"alert_id": "A-heldout-0068", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "14", "problems": []}
+{"alert_id": "A-heldout-0069", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0070", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0071", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 3", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0072", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "monthly_income_40k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0073", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "Multiple large cash payments to different recipients within a short period", "problems": []}
+{"alert_id": "A-heldout-0074", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "10 cash deposits totaling ₹4,53,000", "problems": []}
+{"alert_id": "A-heldout-0075", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Cash deposited close to but below ₹50,000 cutoff", "problems": []}
+{"alert_id": "A-heldout-0076", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "93% of payments went out within 5 days", "problems": []}
+{"alert_id": "A-heldout-0077", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0078", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows followed by returns", "problems": []}
+{"alert_id": "A-heldout-0079", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0080", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances > 3x monthly income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0081", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0082", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0083", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited > ₹50,000", "problems": []}
+{"alert_id": "A-heldout-0084", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0085", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals within seven days", "problems": []}
+{"alert_id": "A-heldout-0086", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "13 cash deposits totaling ₹5,74,000", "problems": []}
+{"alert_id": "A-heldout-0087", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "8 cash deposits totaling ₹3,42,700", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0088", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals within seven days", "problems": []}
+{"alert_id": "A-heldout-0089", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "Multiple large cash payments totaling ₹94,300 within 2 days followed by a significant amount going to Gayatri Kapoor.", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0090", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "80% of large receipts remitted to third parties", "problems": []}
+{"alert_id": "A-heldout-0091", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 19", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0092", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0093", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "3 big pay-ins of ₹50,000+ within 2 days", "problems": []}
+{"alert_id": "A-heldout-0094", "valid": false, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins_2019", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0095", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash deposits totaling ₹2,73,100, close to the ₹50,000 threshold, followed by a single large payment of ₹1,11,500 to Harish Fernandes.", "problems": []}
+{"alert_id": "A-heldout-0096", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances exceeding 97% of monthly income remitted within 2 days", "problems": []}
+{"alert_id": "A-heldout-0097", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to ATM withdrawal ₹11,000, Electronics store ₹7,000, Electricity board ₹2,000", "problems": []}
+{"alert_id": "A-heldout-0098", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited into account, then moved on to others within 2 days", "problems": []}
+{"alert_id": "A-heldout-0099", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 3% of income", "problems": []}
+{"alert_id": "A-heldout-0100", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash payments followed by a significant return", "problems": []}
+{"alert_id": "A-heldout-0101", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "17.4 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0102", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "11", "problems": []}
+{"alert_id": "A-heldout-0103", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0104", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "4 distinct remitters paid in ₹69,600", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0105", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "95% of payments went out within 5 days, followed by a single large return after 15 days.", "problems": []}
+{"alert_id": "A-heldout-0106", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances from remitters who have left within 5 days", "problems": []}
+{"alert_id": "A-heldout-0107", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "turnover > income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0108", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Multiple large cash payments followed by a return", "problems": []}
+{"alert_id": "A-heldout-0109", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to landlord", "problems": []}
+{"alert_id": "A-heldout-0110", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "11.0 times monthly income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0111", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "97% of funds were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0112", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "4 big pay-ins of ₹50,000+ within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0113", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0114", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "monthly_income_47k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0115", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "29.4 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0116", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0117", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_5_times_monthly_income", "problems": []}
+{"alert_id": "A-heldout-0118", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0119", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited close to but under ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0120", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover * 4", "problems": []}
+{"alert_id": "A-heldout-0121", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "2 payments of ₹10,000 or above repaid within 15 days", "problems": []}
+{"alert_id": "A-heldout-0122", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Multiple large cash payments (>₹50,000) made to different recipients within a short period.", "problems": []}
+{"alert_id": "A-heldout-0123", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "19 distinct remitters paid in ₹4,35,700", "problems": []}
+{"alert_id": "A-heldout-0124", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows, frequent movement within 2 days, significant return of funds", "problems": []}
+{"alert_id": "A-heldout-0125", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 10", "problems": []}
+{"alert_id": "A-heldout-0126", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "24 distinct remitters paid in ₹5,69,500", "problems": []}
+{"alert_id": "A-heldout-0127", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0128", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "10", "problems": []}
+{"alert_id": "A-heldout-0129", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "Multiple large cash inflows followed by significant returns within a short period", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0130", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash payments followed by a significant return", "problems": []}
+{"alert_id": "A-heldout-0131", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances to third parties, funds returned", "problems": []}
+{"alert_id": "A-heldout-0132", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Landlord ₹60,500, Insurance premium ₹31,500, Food delivery ₹27,110", "problems": []}
+{"alert_id": "A-heldout-0133", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "3 big pay-ins totaling ₹10,68,200 within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0134", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count=26", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0135", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 10", "problems": []}
+{"alert_id": "A-heldout-0136", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 24", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0137", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "count=24", "problems": []}
+{"alert_id": "A-heldout-0138", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "12", "problems": []}
+{"alert_id": "A-heldout-0139", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "6 cash deposits totaling ₹2,79,600", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0140", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0141", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "43% of funds remitted to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0142", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals who then remitted them back to the profile's bank accounts", "problems": []}
+{"alert_id": "A-heldout-0143", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "24.6 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0144", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0145", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited close to but under ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0146", "valid": true, "typology": "RAPID_PASS_THROUGH", "risk": "high", "reason": "4 large pay-ins totaling ₹7,45,400 within 2 days followed by returns totaling ₹8,61,127", "problems": []}
+{"alert_id": "A-heldout-0147", "valid": false, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0148", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "13 cash deposits totaling ₹5,93,100 close to the ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0149", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "turnover > 2x income", "problems": []}
+{"alert_id": "A-heldout-0150", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["typology is not one of the allowed labels", "reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0151", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "9 (₹4,04,400; 7.1 times monthly income)", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0152", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count=20,totalling=₹6,70,200", "problems": []}
+{"alert_id": "A-heldout-0153", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0154", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "ATM withdrawal", "problems": []}
+{"alert_id": "A-heldout-0155", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "25 distinct remitters paid in ₹5,71,500", "problems": []}
+{"alert_id": "A-heldout-0156", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "12 cash deposits totaling ₹5,40,000", "problems": []}
+{"alert_id": "A-heldout-0157", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0158", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "None", "problems": []}
+{"alert_id": "A-heldout-0159", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances of ₹56,000 from 1 distinct person", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0160", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "ATM withdrawal ₹14,500", "problems": []}
+{"alert_id": "A-heldout-0161", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0162", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹56,253", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0163", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Multiple large cash inflows totaling ₹8,08,400 within 15 days followed by a return of ₹10,000 or more.", "problems": []}
+{"alert_id": "A-heldout-0164", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 3 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0165", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to landlord ₹46,000", "problems": []}
+{"alert_id": "A-heldout-0166", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "9 cash lodgements totaling ₹4,11,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0167", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances of ₹1,420 remitted to third parties within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0168", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances exceeding 8.3 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0169", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0170", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows followed by significant returns within a short period, indicating suspicious activity.", "problems": []}
+{"alert_id": "A-heldout-0171", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "2 payments of ₹10,000 or more returned inside 15 days", "problems": []}
+{"alert_id": "A-heldout-0172", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0173", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "100% return on remittance", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0174", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "Multiple large cash payments from different sources totaling ₹2,01,900 within 5 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0175", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "3 big pay-ins followed by returns totaling ₹16,03,600 within 15 days", "problems": []}
+{"alert_id": "A-heldout-0176", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "16.7 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0177", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0178", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "monthly_income", "problems": []}
+{"alert_id": "A-heldout-0179", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0180", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances from 2 distinct individuals totaling 2.0 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0181", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "cash deposited close to but under ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0182", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash payments (>₹50,000) within a short period, followed by returns", "problems": []}
+{"alert_id": "A-heldout-0183", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0184", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹49,350 > ₹38,000", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0185", "valid": false, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0186", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Mansi Desai received a large sum of ₹4,71,000, followed by an ATM withdrawal of ₹57,500, totaling ₹5,28,500, which was then spent within 5 days.", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0187", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "16 distinct remitters paid ₹2,78,500", "problems": []}
+{"alert_id": "A-heldout-0188", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "3 large pay-ins followed by returns totaling ₹10,67,700", "problems": []}
+{"alert_id": "A-heldout-0189", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0190", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0191", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0192", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "96% of large receipts were remitted to third parties within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0193", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "cash deposited totaling ₹3,93,800", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0194", "valid": true, "typology": "ROUND_TRIPPING", "risk": "low", "reason": "None", "problems": []}
+{"alert_id": "A-heldout-0195", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0196", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["typology is not one of the allowed labels", "reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0197", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "25 distinct remitters paid in ₹5,37,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0198", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "20 distinct remitters paid in ₹4,86,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0199", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "96% of funds were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0200", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances > 60% of income, remittance pattern", "problems": ["typology is not one of the allowed labels", "reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0201", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 7", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0202", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash payments totaling ₹50,000 or more within a short period, followed by returns.", "problems": []}
+{"alert_id": "A-heldout-0203", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "22 distinct remitters paid in ₹4,80,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0204", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large deposits followed by significant returns within a short period.", "problems": []}
+{"alert_id": "A-heldout-0205", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 3x monthly income", "problems": []}
+{"alert_id": "A-heldout-0206", "valid": false, "typology": null, "risk": null, "reason": null, "problems": ["output is not valid JSON"]}
+{"alert_id": "A-heldout-0207", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "88% of funds remitted to third parties", "problems": []}
+{"alert_id": "A-heldout-0208", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover * 2", "problems": []}
+{"alert_id": "A-heldout-0209", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "None", "problems": []}
+{"alert_id": "A-heldout-0210", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "None", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0211", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹36,903 > ₹33,900", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0212", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "93% of payments went out within 5 days", "problems": []}
+{"alert_id": "A-heldout-0213", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "cash deposited totaling ₹3,69,900", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0214", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "count 25", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0215", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances to third parties", "problems": []}
+{"alert_id": "A-heldout-0216", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances > 3.7x monthly income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0217", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "85%", "problems": []}
+{"alert_id": "A-heldout-0218", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "29% of funds remitted to third parties", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0219", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Sameer Desai received most funds, totaling ₹2,64,000; all payments were made within 5 days.", "problems": []}
+{"alert_id": "A-heldout-0220", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "ATM withdrawal ₹14,500", "problems": []}
+{"alert_id": "A-heldout-0221", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Monthly income is ₹14,000, but overall spending is ₹14,500; most money goes to ATM, grocery, and online shopping.", "problems": []}
+{"alert_id": "A-heldout-0222", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0223", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of ₹890 from own bank account", "problems": []}
+{"alert_id": "A-heldout-0224", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "82%", "problems": []}
+{"alert_id": "A-heldout-0225", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances from 95% of funds totaling 7.3 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0226", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to ATM withdrawal ₹18,500, Landlord ₹17,500, Online shopping ₹3,500", "problems": []}
+{"alert_id": "A-heldout-0227", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "turnover > 1x income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0228", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "10 (₹4,42,600; 5.5 times monthly income)", "problems": []}
+{"alert_id": "A-heldout-0229", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals", "problems": []}
+{"alert_id": "A-heldout-0230", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "100% return of funds within 15 days", "problems": []}
+{"alert_id": "A-heldout-0231", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances > 3 times monthly income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0232", "valid": false, "typology": null, "risk": null, "reason": null, "problems": ["output is not valid JSON"]}
+{"alert_id": "A-heldout-0233", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "92% of large receipts were remitted to third parties within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0234", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "12 distinct remitters paid ₹2,87,000", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0235", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 13", "problems": []}
+{"alert_id": "A-heldout-0236", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances exceeding 3.2 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0237", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Multiple large cash payments (>₹50,000) from different sources within a short period, followed by returns of some funds within a few days.", "problems": []}
+{"alert_id": "A-heldout-0238", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows, significant return of funds within a short period", "problems": []}
+{"alert_id": "A-heldout-0239", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "20.6 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0240", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "96% of funds remitted were sent to third parties within 2 days", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0241", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to landlord", "problems": []}
+{"alert_id": "A-heldout-0242", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "13", "problems": []}
+{"alert_id": "A-heldout-0243", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0244", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins_50k", "problems": []}
+{"alert_id": "A-heldout-0245", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹52,500", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0246", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "monthly_income", "problems": []}
+{"alert_id": "A-heldout-0247", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "Multiple large cash inflows followed by significant returns within a short period.", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0248", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "83%", "problems": []}
+{"alert_id": "A-heldout-0249", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "cash deposited > ₹50,000; no big pay-ins; most money goes to specific accounts", "problems": []}
+{"alert_id": "A-heldout-0250", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Lakshman Chawla received a significant portion of the funds, totaling ₹5,22,000.", "problems": []}
+{"alert_id": "A-heldout-0251", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Cash deposited close to but under ₹50,000 cut-off", "problems": []}
+{"alert_id": "A-heldout-0252", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "100% of large receipts were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0253", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "11 cash deposits totaling ₹4,84,700", "problems": []}
+{"alert_id": "A-heldout-0254", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large deposits followed by significant returns within a short period.", "problems": []}
+{"alert_id": "A-heldout-0255", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "14 cash deposits totaling ₹6,20,900", "problems": []}
+{"alert_id": "A-heldout-0256", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "96% of funds remitted to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0257", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "₹56,700 in vs. ₹54,000 out", "problems": []}
+{"alert_id": "A-heldout-0258", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 8", "problems": []}
+{"alert_id": "A-heldout-0259", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0260", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Holder's cash flow matches their income, but there are no large deposits or withdrawals.", "problems": []}
+{"alert_id": "A-heldout-0261", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "25 distinct remitters paid in ₹5,68,500", "problems": []}
+{"alert_id": "A-heldout-0262", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "cash deposited close to but below ₹50,000 cutoff", "problems": []}
+{"alert_id": "A-heldout-0263", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹21,628 > ₹18,700", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0264", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 10% of income", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0265", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "₹31,100", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0266", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0267", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "multiple large cash payments followed by a significant return within 15 days", "problems": []}
+{"alert_id": "A-heldout-0268", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to ATM withdrawal ₹19,500", "problems": []}
+{"alert_id": "A-heldout-0269", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances to three distinct individuals", "problems": []}
+{"alert_id": "A-heldout-0270", "valid": true, "typology": "MULE_ACCOUNT", "risk": "high", "reason": "Multiple large cash payments totaling ₹5,11,800 within two months.", "problems": []}
+{"alert_id": "A-heldout-0271", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0272", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0273", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0274", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0275", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "None", "problems": []}
+{"alert_id": "A-heldout-0276", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of ₹5,670 from 0.0 times monthly income", "problems": []}
+{"alert_id": "A-heldout-0277", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > turnover", "problems": []}
+{"alert_id": "A-heldout-0278", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "13 large cash lodgements totaling ₹5,74,400", "problems": []}
+{"alert_id": "A-heldout-0279", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "remittances from 3 distinct individuals", "problems": []}
+{"alert_id": "A-heldout-0280", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0281", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "13", "problems": []}
+{"alert_id": "A-heldout-0282", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "turnover > income", "problems": []}
+{"alert_id": "A-heldout-0283", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["typology is not one of the allowed labels", "reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0284", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were made to three distinct individuals within two days", "problems": []}
+{"alert_id": "A-heldout-0285", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "turnover > income", "problems": []}
+{"alert_id": "A-heldout-0286", "valid": false, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins_50k", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0287", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "big_pay_ins", "problems": []}
+{"alert_id": "A-heldout-0288", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances of ₹50,000 or more", "problems": []}
+{"alert_id": "A-heldout-0289", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "turnover > 1x income", "problems": []}
+{"alert_id": "A-heldout-0290", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to a single recipient", "problems": []}
+{"alert_id": "A-heldout-0291", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 14", "problems": []}
+{"alert_id": "A-heldout-0292", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Monthly income is ₹19,000, but overall movement is ₹20,800", "problems": []}
+{"alert_id": "A-heldout-0293", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "remittances > 2x monthly income", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0294", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "10,000+ return after 15 days", "problems": []}
+{"alert_id": "A-heldout-0295", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances were remitted onward to third parties within 2 days", "problems": []}
+{"alert_id": "A-heldout-0296", "valid": false, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "remittances > 50k, remittance pattern, funds returned", "problems": ["reason uses a number that is not in the summary"]}
+{"alert_id": "A-heldout-0297", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "count 10", "problems": []}
+{"alert_id": "A-heldout-0298", "valid": true, "typology": "ROUND_TRIPPING", "risk": "high", "reason": "Most money went to ATM withdrawal ₹15,000, Landlord ₹9,500, Fuel station ₹3,220", "problems": []}
+{"alert_id": "A-heldout-0299", "valid": false, "typology": "Rapid Pass Through", "risk": "high", "reason": "big_pay_ins", "problems": ["typology is not one of the allowed labels"]}
+{"alert_id": "A-heldout-0300", "valid": true, "typology": "STRUCTURING", "risk": "high", "reason": "Multiple large cash inflows followed by significant returns", "problems": []}

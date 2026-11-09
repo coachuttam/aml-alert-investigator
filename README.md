@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (77 tests). The model has been fine-tuned and scored on validation and test (table below). The held-out run, the investigator workflow, the app and the Hugging Face release come next.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (77 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The investigator workflow, the app and the Hugging Face release come next.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -29,21 +29,25 @@ flowchart LR
 
 ## Results
 
-Scored on the validation and test sets, which share wording templates with the training data. The held-out set (new wording, larger incomes) has not been scored yet; it is run once at the end.
+Test shares its wording templates with the training data. Held-out uses new wording templates and incomes 1.6 times larger, and was scored once, after all training and rule choices were fixed. Nothing was tuned on it.
 
-| System | Macro-F1 (test) | Macro-F1 (held-out) | False alarms on normal alerts (test) | Valid JSON (test) | Risk accuracy (test) |
+| System | Macro-F1 (test) | Macro-F1 (held-out) | False alarms on normal alerts (test / held-out) | Valid JSON (test / held-out) | Risk accuracy (test / held-out) |
 | --- | --- | --- | --- | --- | --- |
-| A1. Rules, default thresholds | 0.962 | not run | 8.1% | n/a | n/a |
-| A2. Rules, tuned on train | 0.990 | not run | 0.0% | n/a | n/a |
-| B. Base model, prompted only | 0.135 | not run | 100% | 88.5% | 23.8% |
-| C. Fine-tuned model | 1.000 | not run | 0.0% | 100% | 99.8% |
+| A1. Rules, default thresholds | 0.962 | 0.948 | 8.1% / 14.2% | n/a | n/a |
+| A2. Rules, tuned on train | 0.990 | 0.990 | 0.0% / 1.7% | n/a | n/a |
+| B. Base model, prompted only | 0.135 | 0.181 | 100% / 100% | 88.5% / 72.0% | 23.8% / 23.3% |
+| C. Fine-tuned model | 1.000 | 0.936 | 0.0% / 8.3% | 100% / 99.7% | 99.8% / 99.7% |
 | D. Prompted Claude (optional) | not run | not run | not run | not run | not run |
 
-How to read this:
-- The fine-tuned model ties the tuned rules on typology (a gap of about two alerts out of 400). The rules read exact computed numbers; the model reads only text, and also returns a risk level and a reason that passes the faithfulness check, which the rules cannot do.
-- The default rules flag 80% of the "salary then commitments" look-alikes. The fine-tuned model flags none.
-- The base model was told the label names but not what they mean, and was given no examples, so it shows what training added, not what the best possible prompt could do.
-- The task is easy by design: the summary prints the numbers that decide the label. A near-perfect score on test is expected, and the held-out set is the real check.
+What the results say:
+- **Fine-tuning works.** The base model scores 0.135 on test (0.181 on held-out, with only 72% valid JSON) and never answers "no concern". The fine-tuned model scores 1.000 on test, with valid JSON, faithful reasons and the right risk level in almost every case.
+- **It did not beat the tuned rules on held-out.** The fine-tuned model scored 0.936 against 0.990 for the tuned rules, and was slightly below the default rules (0.948). The target in the PRD was for it to win; it did not.
+- **Where it slipped on held-out:** mule accounts (F1 0.83) and the "salary then commitments" look-alike, which it flagged 53% of the time (0% on test). Tuned rules read exact computed numbers, so new wording does not affect them. The model reads text, and the held-out wording and amounts were new to it.
+- **What held up:** valid JSON, faithful reasons and risk accuracy all stayed near 99.7%, and structuring stayed perfect.
+- **The task is easy by design.** The summary prints the numbers that decide the label, so a near-perfect test score is expected. Held-out is the real check, and it shows a generalisation gap.
+- The base model was told only the label names, with no definitions or examples, so it shows what training added, not what the best prompt could do.
+
+Next experiment (a clearly labelled v2, not a tweak of these numbers): add more wording styles and income scales to the training data, retrain, and score on a new held-out set.
 
 ## Quick start
 
