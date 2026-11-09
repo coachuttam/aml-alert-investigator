@@ -23,6 +23,7 @@ LORA_DROPOUT = 0.05
 LEARNING_RATE = 2e-4
 EPOCHS = 2
 BATCH_SIZE = 4
+EVAL_BATCH_SIZE = 2           # the model scores 150,000 word pieces per position; small batches avoid running out of GPU memory
 ACCUMULATION_STEPS = 4        # effective batch of 16 without needing more memory
 SAVE_EVERY_STEPS = 100        # checkpoints go to Drive so a disconnect loses little
 WARMUP_SHARE = 0.05           # first 5% of steps ramp the learning rate up gently
@@ -103,7 +104,7 @@ def train(output_dir: Path, base_model: str, epochs: int, limit: Optional[int]) 
     validation_data = [tokenize_example(e, tokenizer) for e in validation_examples]
     arguments = TrainingArguments(
         output_dir=str(output_dir), num_train_epochs=epochs, learning_rate=LEARNING_RATE,
-        per_device_train_batch_size=BATCH_SIZE, gradient_accumulation_steps=ACCUMULATION_STEPS,
+        per_device_train_batch_size=BATCH_SIZE, per_device_eval_batch_size=EVAL_BATCH_SIZE, gradient_accumulation_steps=ACCUMULATION_STEPS,
         fp16=True, logging_steps=10, save_steps=SAVE_EVERY_STEPS, eval_steps=SAVE_EVERY_STEPS,
         eval_strategy="steps", save_total_limit=2, report_to="none",
         lr_scheduler_type="cosine",
