@@ -53,3 +53,22 @@ def test_two_invalid_answers_give_up_after_one_retry():
         return "nonsense"
     assert not classify_with_retry(SUMMARY, always_bad).valid
     assert len(calls) == 2
+
+
+def test_batched_prediction_answers_every_alert_and_retries_only_bad_ones():
+    from src.predict import predict_split
+    examples = [{"alert_id": f"A{i}", "summary": SUMMARY} for i in range(5)]
+    retries = []
+
+    def batch(summaries):
+        # the first answer of every batch is bad, the rest are good
+        return ["nonsense"] + [GOOD] * (len(summaries) - 1)
+
+    def single(summary):
+        retries.append(1)
+        return GOOD
+
+    rows = predict_split(examples, single, batch, batch_size=2)     # batches of 2, 2 and 1
+    assert [row["alert_id"] for row in rows] == [f"A{i}" for i in range(5)]
+    assert all(row["valid"] for row in rows)
+    assert len(retries) == 3                                        # one bad answer per batch

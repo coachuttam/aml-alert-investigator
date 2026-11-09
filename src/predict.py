@@ -25,6 +25,8 @@ DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
 
 # Anything that turns a summary into raw model text. Real models and test fakes both fit.
 GenerateFunction = Callable[[str], str]
+BatchFunction = Callable[[List[str]], List[str]]
+BATCH_SIZE = 16                 # alerts answered at once; fits a T4 comfortably
 
 
 def classify_with_retry(summary: str, generate: GenerateFunction) -> CheckedAnswer:
@@ -38,12 +40,17 @@ def classify_with_retry(summary: str, generate: GenerateFunction) -> CheckedAnsw
     return check_answer(generate(summary), summary)
 
 
-def load_model(adapter_folder: Optional[str], base_model: str = BASE_MODEL) -> GenerateFunction:
-    """Load the base model (plus the adapter, if given) and return a generate function."""
+def load_model(adapter_folder: Optional[str], base_model: str = BASE_MODEL):
+    """Load the base model (plus the adapter, if given).
+
+    Returns two functions: one answers a single summary, one answers a list of summaries
+    at once, which is much faster on a GPU.
+    """
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
     tokenizer = AutoTokenizer.from_pretrained(base_model)
+    tokenizer.padding_side = "left"          # so every answer starts right after its own prompt
     quantisation = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4",
                                       bnb_4bit_compute_dtype=torch.float16)
     model = AutoModelForCausalLM.from_pretrained(
@@ -53,26 +60,55 @@ def load_model(adapter_folder: Optional[str], base_model: str = BASE_MODEL) -> G
         model = PeftModel.from_pretrained(model, adapter_folder)
     model.eval()
 
-    def generate(summary: str) -> str:
-        prompt = tokenizer.apply_chat_template(
-            build_messages(summary), tokenize=False, add_generation_prompt=True)
-        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    def generate_batch(summaries: List[str]) -> List[str]:
+        prompts = [tokenizer.apply_chat_template(build_messages(s), tokenize=False,
+                                                 add_generation_prompt=True) for s in summaries]
+        inputs = tokenizer(prompts, return_tensors="pt", padding=True).to(model.device)
         with torch.no_grad():
-            output = model.generate(**inputs, max_new_tokens=MAX_NEW_TOKENS, do_sample=False)
-        return tokenizer.decode(output[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True)
+            output = model.generate(**inputs, max_new_tokens=MAX_NEW_TOKENS, do_sample=False,
+                                    pad_token_id=tokenizer.pad_token_id)
+        new_tokens = output[:, inputs["input_ids"].shape[1]:]
+        return tokenizer.batch_decode(new_tokens, skip_special_tokens=True)
 
-    return generate
+    def generate(summary: str) -> str:
+        return generate_batch([summary])[0]
+
+    return generate, generate_batch
 
 
-def predict_split(examples: List[dict], generate: GenerateFunction) -> List[dict]:
-    """One saved row per alert: the checked answer, ready for scoring."""
+def predict_split(examples: List[dict], generate: GenerateFunction,
+                  generate_batch: Optional[BatchFunction] = None,
+                  batch_size: int = BATCH_SIZE) -> List[dict]:
+    """One saved row per alert: the checked answer, ready for scoring.
+
+    With a batch function, alerts are answered a batch at a time; an answer that fails
+    the checks is retried once on its own, as in classify_with_retry.
+    """
     rows = []
-    for example in examples:
-        checked = classify_with_retry(example["summary"], generate)
-        rows.append({"alert_id": example["alert_id"], "valid": checked.valid,
-                     "typology": checked.typology, "risk": checked.risk,
-                     "reason": checked.reason, "problems": checked.problems})
+    for start in range(0, len(examples), batch_size):
+        chunk = examples[start:start + batch_size]
+        if generate_batch is None:
+            checked_answers = [classify_with_retry(e["summary"], generate) for e in chunk]
+        else:
+            texts = generate_batch([e["summary"] for e in chunk])
+            checked_answers = [check_with_one_retry(e["summary"], text, generate)
+                               for e, text in zip(chunk, texts)]
+        rows.extend(to_row(e, checked) for e, checked in zip(chunk, checked_answers))
+        print(f"  answered {len(rows)} of {len(examples)}", flush=True)
     return rows
+
+
+def check_with_one_retry(summary: str, first_text: str, generate: GenerateFunction) -> CheckedAnswer:
+    """Check an answer already generated; if it fails, ask once more on its own."""
+    checked = check_answer(first_text, summary)
+    return checked if checked.valid else check_answer(generate(summary), summary)
+
+
+def to_row(example: dict, checked: CheckedAnswer) -> dict:
+    """The saved form of one checked answer."""
+    return {"alert_id": example["alert_id"], "valid": checked.valid,
+            "typology": checked.typology, "risk": checked.risk,
+            "reason": checked.reason, "problems": checked.problems}
 
 
 def save_predictions(rows: List[dict], path: Path) -> None:
@@ -91,7 +127,8 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
     examples = load_split(DATA_FOLDER / f"{args.split}.jsonl")[: args.limit]
-    save_predictions(predict_split(examples, load_model(args.adapter)), Path(args.output))
+    generate, generate_batch = load_model(args.adapter)
+    save_predictions(predict_split(examples, generate, generate_batch), Path(args.output))
     print(f"Wrote {len(examples)} answers to {args.output}")
 
 
