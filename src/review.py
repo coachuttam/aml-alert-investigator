@@ -2,14 +2,12 @@
 
 For each alert it gathers: the summary the model read, the fine-tuned model's
 verdict, what the rules and the base model said, and the true label.
-Analyst decisions are saved as an overlay in a log file: the original alert and
-the model's verdict are never changed.
+Analyst decisions live in the case files and the audit log (see investigator.py).
 """
 from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -24,7 +22,6 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_FOLDER = ROOT / "data"
 RAW_FOLDER = DATA_FOLDER / "raw"
 RESULTS_FOLDER = ROOT / "results"
-DECISION_LOG = ROOT / "audit" / "decisions.jsonl"
 
 RISK_ORDER = {"high": 0, "medium": 1, "low": 2, "unknown": 3}
 NEEDS_REVIEW = "NEEDS_REVIEW"     # shown when the model's answer could not be validated
@@ -167,28 +164,3 @@ def agreement_label(alert: ReviewAlert) -> str:
     if alert.model_typology == alert.rules_tuned:
         return "The model and the tuned rules agree."
     return "The model and the tuned rules disagree: look closely."
-
-
-def save_decision(alert: ReviewAlert, action: str, typology: str, risk: str, note: str,
-                  log_path: Path = DECISION_LOG) -> dict:
-    """Append one analyst decision. The alert and the model's verdict stay untouched."""
-    record = {
-        "time": datetime.now().isoformat(timespec="seconds"),
-        "alert_id": alert.alert_id,
-        "action": action,
-        "model_said": f"{alert.model_typology} / {alert.model_risk}",
-        "analyst_set": f"{typology} / {risk}",
-        "note": note.strip(),
-    }
-    log_path.parent.mkdir(parents=True, exist_ok=True)
-    with log_path.open("a", encoding="utf-8") as log_file:
-        log_file.write(json.dumps(record, ensure_ascii=False) + "\n")
-    return record
-
-
-def read_decisions(log_path: Path = DECISION_LOG) -> List[dict]:
-    """All saved decisions, oldest first."""
-    if not log_path.exists():
-        return []
-    lines = log_path.read_text(encoding="utf-8").splitlines()
-    return [json.loads(line) for line in lines if line.strip()]

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from src.review import (NEEDS_REVIEW, ReviewAlert, agreement_label, build_review_alert,
-                        read_decisions, save_decision, sort_for_queue, supports_verdict, words_for)
+                        sort_for_queue, supports_verdict, words_for)
 from src.rules import DEFAULT_CONFIG
 
 STRUCTURING_FEATURES = {
@@ -70,21 +70,6 @@ def test_agreement_line_says_when_the_model_and_rules_disagree():
 def test_typology_names_become_plain_words():
     assert words_for("RAPID_PASS_THROUGH") == "Rapid pass-through"
     assert words_for(NEEDS_REVIEW) == "Needs review"
-
-
-def test_a_saved_decision_is_logged_with_the_model_verdict_kept_beside_it(tmp_path):
-    log_path = tmp_path / "audit" / "decisions.jsonl"
-    save_decision(make_alert(), "override", "NO_CONCERN", "low", "  Salary pattern.  ", log_path)
-    save_decision(make_alert(), "approve", "STRUCTURING", "high", "", log_path)
-    decisions = read_decisions(log_path)
-    assert [d["action"] for d in decisions] == ["override", "approve"]
-    assert decisions[0]["model_said"] == "STRUCTURING / high"
-    assert decisions[0]["analyst_set"] == "NO_CONCERN / low"
-    assert decisions[0]["note"] == "Salary pattern."
-
-
-def test_reading_decisions_before_any_are_saved_gives_an_empty_list(tmp_path):
-    assert read_decisions(tmp_path / "nothing.jsonl") == []
 
 
 def test_just_under_limit_cash_credits_support_a_structuring_verdict():

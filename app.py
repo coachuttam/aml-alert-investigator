@@ -10,10 +10,14 @@ from typing import List
 import pandas as pd
 import streamlit as st
 
+from src.audit import read_events
+from src.case_store import DECIDED, Case, load_case
+from src.investigator import (DecisionError, export_json, export_markdown, record_decision,
+                              run_investigation)
 from src.money import format_rupees
 from src.review import (HELDOUT_NOTE, NEEDS_REVIEW, ReviewAlert, agreement_label,
-                        load_review_alerts, read_decisions, read_transactions, save_decision,
-                        supports_verdict, tuned_rules_config, words_for)
+                        load_review_alerts, read_transactions, supports_verdict,
+                        tuned_rules_config, words_for)
 from src.review_scores import build_score_table
 from src.schema import ALL_LABELS, RISK_LEVELS
 
@@ -21,6 +25,9 @@ SPLIT_CHOICES = {"validation": "validation", "test": "test", "heldout": HELDOUT_
 RISK_COLOURS = {"low": "rgba(46,160,67,0.18)", "medium": "rgba(210,153,34,0.22)",
                 "high": "rgba(218,54,51,0.20)", "unknown": "rgba(128,128,128,0.18)"}
 SYNTHETIC_NOTE = "Synthetic data. Prototype, not certified for compliance."
+STEP_MARKS = {"done": "✔ done", "needs_review": "⚠ needs review", "unavailable": "– not available",
+              "waiting": "… waiting for the analyst"}
+CASE_WORDS = {"awaiting_analyst": "awaiting analyst", "needs_review": "needs review", "decided": "decided"}
 
 st.set_page_config(page_title="AML Alert Investigator", layout="wide")
 
@@ -82,10 +89,16 @@ def pick_filters(alerts: List[ReviewAlert]) -> List[ReviewAlert]:
             and (not typologies or alert.model_typology in typologies)]
 
 
+def case_status_words(alert_id: str) -> str:
+    case = load_case(alert_id)
+    return CASE_WORDS[case.status] if case else "not investigated"
+
+
 def show_queue(alerts: List[ReviewAlert]) -> None:
     rows = [{"Alert": a.alert_id, "Window end": a.window_end, "Verdict": words_for(a.model_typology),
              "Risk": a.model_risk, "Tuned rules": words_for(a.rules_tuned),
-             "Agree": "yes" if a.model_typology == a.rules_tuned else "NO"} for a in alerts]
+             "Agree": "yes" if a.model_typology == a.rules_tuned else "NO",
+             "Case": case_status_words(a.alert_id)} for a in alerts]
     st.caption("Highest risk first, then newest. Open an alert in the next tab.")
     show_table(pd.DataFrame(rows))
 
@@ -137,22 +150,68 @@ def show_evidence(alert: ReviewAlert, transactions: List[dict]) -> None:
     show_table(pd.DataFrame(rows), height=320)
 
 
-def show_decision_panel(alert: ReviewAlert) -> None:
-    st.markdown("**Analyst decision**")
+def show_steps(case: Case) -> None:
+    for step in case.steps:
+        with st.expander(f"Step {step.number}: {step.name}  ·  {STEP_MARKS[step.status]}"):
+            st.write(step.summary)
+            for line in step.details:
+                st.markdown(f"- {line}")
+
+
+def show_decision_panel(alert: ReviewAlert, case: Case) -> None:
+    st.markdown("**Step 6: analyst decision**")
     st.caption(f"Model said: {words_for(alert.model_typology)}, risk {alert.model_risk}. "
                "The original alert and verdict are never changed; your decision is saved beside them.")
+    if case.decision:
+        d = case.decision
+        st.success(f"Latest decision: {d['action']}, {words_for(d['typology'])}, risk {d['risk']} ({d['time']}).")
     action = st.radio("Decision", ["Approve", "Override"], horizontal=True, key=f"action_{alert.alert_id}")
     typology, risk = alert.model_typology, alert.model_risk
-    if action == "Override":
-        typology = st.selectbox("Typology", list(ALL_LABELS), format_func=words_for, key=f"t_{alert.alert_id}")
-        risk = st.selectbox("Risk", list(RISK_LEVELS), key=f"r_{alert.alert_id}")
+    if action == "Override" or alert.model_typology == NEEDS_REVIEW:
+        start_typology = ALL_LABELS.index(alert.model_typology) if alert.model_typology in ALL_LABELS else 0
+        start_risk = RISK_LEVELS.index(alert.model_risk) if alert.model_risk in RISK_LEVELS else 0
+        typology = st.selectbox("Typology", list(ALL_LABELS), index=start_typology, format_func=words_for,
+                                key=f"t_{alert.alert_id}")
+        risk = st.selectbox("Risk", list(RISK_LEVELS), index=start_risk, key=f"r_{alert.alert_id}")
     note = st.text_input("Note (required for an override)", key=f"n_{alert.alert_id}")
     if st.button("Save decision", key=f"save_{alert.alert_id}"):
-        if action == "Override" and not note.strip():
-            st.error("Add a note to explain the override.")
-        else:
-            save_decision(alert, action.lower(), typology, risk, note)
-            st.success(f"Saved. Analyst set: {words_for(typology)}, risk {risk}. Nothing was filed or sent.")
+        try:
+            record_decision(alert, case, action.lower(), typology, risk, note)
+            st.rerun()
+        except DecisionError as problem:
+            st.error(str(problem))
+
+
+def show_exports(case: Case) -> None:
+    if case.status != DECIDED:
+        st.caption("Export unlocks after the analyst records a decision. Nothing is filed or sent.")
+        return
+    left, right = st.columns(2)
+    left.download_button("Download case note (Markdown)", export_markdown(case),
+                         file_name=f"{case.alert_id}.md", mime="text/markdown")
+    right.download_button("Download case file (JSON)", export_json(case),
+                          file_name=f"{case.alert_id}.json", mime="application/json")
+
+
+def show_investigation(alert: ReviewAlert, transactions: List[dict]) -> None:
+    st.markdown("### Investigation")
+    case = load_case(alert.alert_id)
+    if case is None:
+        st.caption("Six fixed steps: load, fetch transactions, compute findings, classify, draft a note, "
+                   "analyst decision. Steps 1 to 5 only read and write local files.")
+        if st.button("Run investigation", key=f"run_{alert.alert_id}"):
+            run_investigation(alert, transactions)
+            st.rerun()
+        return
+    st.caption(f"Case status: {CASE_WORDS[case.status]}")
+    left, right = st.columns([3, 2])
+    with left:
+        show_steps(case)
+        with st.expander("Draft case note", expanded=True):
+            st.markdown(case.note)
+    with right:
+        show_decision_panel(alert, case)
+        show_exports(case)
 
 
 def show_detail(alerts: List[ReviewAlert], split: str) -> None:
@@ -171,7 +230,7 @@ def show_detail(alerts: List[ReviewAlert], split: str) -> None:
     with right:
         show_verdict(alert)
         show_comparison(alert)
-        show_decision_panel(alert)
+    show_investigation(alert, transactions)
 
 
 def show_evaluation() -> None:
@@ -201,13 +260,14 @@ def show_evaluation() -> None:
                "That result is reported as it is; the held-out set was scored once.")
 
 
-def show_audit_log(decisions: List[dict]) -> None:
-    if not decisions:
-        st.info("No decisions saved yet. Approve or override an alert and it appears here.")
+def show_audit_log() -> None:
+    events = read_events()
+    if not events:
+        st.info("Nothing logged yet. Run an investigation and it appears here, step by step.")
         return
-    table = pd.DataFrame(decisions).rename(columns={"time": "Time", "alert_id": "Alert", "action": "Action",
-                                                    "model_said": "Model said", "analyst_set": "Analyst set",
-                                                    "note": "Note"})
+    st.caption("Every step and decision, newest first. The log is only ever added to.")
+    table = pd.DataFrame([vars(event) for event in events]).rename(columns={
+        "time": "Time", "alert_id": "Alert", "action": "Action", "before": "Before", "after": "After", "note": "Note"})
     show_table(table.iloc[::-1])
 
 
@@ -217,9 +277,9 @@ def main() -> None:
     split = st.sidebar.selectbox("Alerts", list(SPLIT_CHOICES), index=1, format_func=SPLIT_CHOICES.get)
     alerts = pick_filters(get_alerts(split))
     st.sidebar.caption(SYNTHETIC_NOTE)
-    decisions = read_decisions()
+    event_count = len(read_events())
     queue_tab, detail_tab, evaluation_tab, audit_tab = st.tabs(
-        [f"Alerts ({len(alerts)})", "Alert detail", "Evaluation", f"Audit log ({len(decisions)})"])
+        [f"Alerts ({len(alerts)})", "Alert detail", "Evaluation", f"Audit log ({event_count})"])
     with queue_tab:
         show_queue(alerts)
     with detail_tab:
@@ -227,7 +287,7 @@ def main() -> None:
     with evaluation_tab:
         show_evaluation()
     with audit_tab:
-        show_audit_log(decisions)
+        show_audit_log()
 
 
 main()

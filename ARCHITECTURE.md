@@ -29,8 +29,12 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/finetune.py` | QLoRA training script (runs on Colab); loss on the answer only; saves adapter and checkpoints |
 | `src/predict.py` | Loads the base model plus adapter; classifies an alert; validates with `schema.py`; retries once; saves answers to `results/` |
 | `src/evaluate.py` | Scores systems on validation and test; held-out only with `--final` |
-| `src/investigator.py` | The six-step workflow, case memory, audit log |
-| `app.py` | Streamlit UI: Alerts, Alert detail, Evaluation, Audit log |
+| `src/investigator.py` | The six-step workflow, analyst decision, and exports that stay blocked until the analyst decides |
+| `src/case_note.py` | Plain-English findings and the draft case note, written by Python from computed numbers; the banned-wording check |
+| `src/case_store.py` | Case memory: one JSON case file per alert, added to by each step |
+| `src/audit.py` | The audit log: append-only JSON lines, one per step or decision |
+| `src/review.py`, `src/review_scores.py` | Join alerts, rules and saved model answers for the app; the Evaluation tab numbers |
+| `app.py` | Streamlit UI: Alerts, Alert detail with the investigation, Evaluation, Audit log |
 | `notebooks/finetune_qlora.ipynb` | Thin Colab wrapper that clones the repo and calls `src/finetune.py` |
 
 ## Data model
@@ -80,7 +84,7 @@ Training runs on Colab; everything else runs on the laptop.
 5. Draft a case note from the verdict and the evidence.
 6. Analyst approves or overrides.
 
-Case memory is a JSON case file that later steps append to. Guardrails: banned wording is rejected, and nothing with side effects runs before step 6.
+Case memory is a JSON case file per alert (`audit/cases/`) that later steps add to; reopening an alert loads it. Step 4 shows the saved fine-tuned answer, and step 5 is written by Python, not by a model. Guardrails: banned wording is rejected, and nothing with side effects runs before step 6.
 
 **Why a fixed workflow.** Small models call tools unreliably. A fixed sequence with the model used only as the classifier is predictable and testable. An LLM planner is a later upgrade.
 
