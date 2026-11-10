@@ -1,6 +1,6 @@
 # PRD: AML Alert Investigator
 
-Status: planning (docs first, code next) · Owner: Uttam · Last updated: 6 Nov 2026
+Status: v1 built (data, rules, fine-tune, evaluation, workflow, review app and live demo done) · Owner: Uttam · Last updated: 10 Nov 2026
 
 ## 1. Problem
 
@@ -95,9 +95,9 @@ Hard negatives are legitimate cases that look suspicious: a real cash-heavy busi
 
 ## 8. Open decisions
 
-1. Base model: Qwen2.5-1.5B-Instruct first; move to about 3B only if results are weak. Check the base model's licence before publishing the merged weights.
-2. Prompted-Claude baseline (system D): include or skip.
-3. Repository visibility: private until polished; make the Hugging Face model public when applying for roles.
+1. Base model: decided. Qwen2.5-1.5B-Instruct (Apache-2.0 per its model page); only the adapter is published, not merged weights. A larger model is a v2 option.
+2. Prompted-Claude baseline (system D): still open; not run.
+3. Repository visibility: decided. GitHub repo, Hugging Face model and dataset are public.
 
 ## 9. Roadmap
 

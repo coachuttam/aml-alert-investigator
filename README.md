@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (110 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The review app and the six-step investigator workflow (case files, audit log, guarded exports) run locally on saved model answers; the hosted demo is live (link below); CSV upload comes next.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers; CSV upload with live model calls comes next.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -57,7 +57,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 110 tests
+python -m pytest -q           # 116 tests
 python -m src.evaluate        # scores the rules baseline on validation and test
 streamlit run app.py          # opens the review app (uses the saved answers in results/)
 ```
