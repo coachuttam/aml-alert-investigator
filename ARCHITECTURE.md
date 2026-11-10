@@ -4,19 +4,9 @@ The model labels and explains; Python counts. Features are computed in Python, t
 
 ## Pipeline
 
-```mermaid
-flowchart LR
-    A[generator.py<br/>synthetic accounts,<br/>planted typologies] --> B[features.py<br/>counts, totals, ratios,<br/>alert summary text]
-    B --> C[splits<br/>by customer; held-out also<br/>by template and amount range]
-    C --> D[finetune.py<br/>QLoRA on Colab]
-    C --> E[rules.py<br/>threshold baseline]
-    D --> F[inference + schema.py<br/>validate, retry once]
-    E --> G[evaluate.py<br/>systems A to D]
-    F --> G
-    F --> H[investigator.py<br/>fixed six-step workflow]
-    H --> I[app.py<br/>Streamlit review UI]
-    I -- override --> H
-```
+![Architecture diagram](docs/architecture.png)
+
+Green boxes are built and tested; dashed orange boxes are planned. The editable source is `docs/architecture.mmd` (Mermaid); re-draw it with `mmdc -i docs/architecture.mmd -o docs/architecture.png -w 1800 -s 2 -b white`.
 
 Training runs on Colab; everything else runs on the laptop.
 

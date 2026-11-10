@@ -1,0 +1,27 @@
+flowchart TB
+    subgraph DATA["1 · Synthetic data and features (laptop)"]
+        direction LR
+        GEN["generator + patterns<br/>4 typologies + hard negatives<br/>seed 42"] --> FEAT["features<br/>Python counts every number<br/>risk = amount / income"] --> TPL["templates<br/>5 wordings<br/>(2 held-out only)"] --> DS[("dataset<br/>train 2,400 · validation 300<br/>test 400 · held-out 300")]
+    end
+
+    DS -- "features" --> RULES["A · threshold rules<br/>default + tuned on train"]
+    DS -- "train split" --> FT["finetune.py · QLoRA on Colab T4<br/>loss on the answer only"]
+    DS -- "alert summaries" --> PRED["predict.py<br/>batched, greedy decoding"]
+    FT --> AD["C · LoRA adapter<br/>74 MB, published on Hugging Face"]
+    AD --> PRED
+    BASE["B · Qwen2.5-1.5B-Instruct<br/>prompted only"] --> PRED
+
+    PRED --> CHECK["schema.py output checker<br/>valid JSON · known labels<br/>reason ≤ 200 chars · no accusing words<br/>only numbers from the summary<br/>retry once, else 'needs review'"]
+    RULES --> EV
+    CHECK --> EV["evaluate.py<br/>macro-F1 · false alarms · valid JSON · risk accuracy<br/>held-out scored once, at the end"]
+    EV --> RES["results/ and README table"]
+
+    CHECK -. "valid verdicts" .-> INV["investigator.py<br/>6 fixed steps, case memory"]
+    INV --> APP["Streamlit review app<br/>analyst approves or overrides"]
+    APP --> AUD["audit log"]
+
+    classDef done fill:#e8f3ec,stroke:#2f7d4f,color:#12301f;
+    classDef plan fill:#fdf3e0,stroke:#b9770e,color:#4a2f05,stroke-dasharray:5 4;
+    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES done;
+    class INV,APP,AUD plan;
+    style DATA fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933

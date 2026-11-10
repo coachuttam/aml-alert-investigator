@@ -2,9 +2,11 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (77 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The investigator workflow, the app and the Hugging Face release come next.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (77 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The investigator workflow and the app come next.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
+
+Published: [fine-tuned adapter](https://huggingface.co/coachuttam/aml-alert-investigator-qwen2.5-1.5b-qlora) · [synthetic dataset](https://huggingface.co/datasets/coachuttam/aml-alert-investigator-data) (both on Hugging Face)
 
 Docs: [PRD](PRD.md) · [Architecture](ARCHITECTURE.md) · [Design system](DESIGN_SYSTEM.md) · [Agent instructions](AGENTS.md)
 
@@ -18,14 +20,9 @@ Docs: [PRD](PRD.md) · [Architecture](ARCHITECTURE.md) · [Design system](DESIGN
 
 The model labels and explains; Python counts. The model never produces a number that is not already in its input, and a check enforces it.
 
-```mermaid
-flowchart LR
-    A[Synthetic accounts] --> B[Features and alert summary]
-    B --> C[Fine-tuned model<br/>typology, risk, reason]
-    C --> D[Validate output]
-    D --> E[Analyst reviews]
-    E --> F[Audit log]
-```
+![Architecture diagram](docs/architecture.png)
+
+Green boxes are built; dashed orange boxes are planned. Details are in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Results
 
@@ -113,3 +110,7 @@ Built with Claude (Anthropic) as a coding assistant. The classifier is a fine-tu
 ## Roadmap
 
 Week 0 practice fine-tune · Week 1 data and rules baseline · Week 2 first fine-tune · Week 3 evaluation · Week 4 workflow and app · Week 5 publish.
+
+## Licence
+
+Code: MIT (see LICENSE). The published adapter and dataset are Apache-2.0. The base model, Qwen2.5-1.5B-Instruct, is Apache-2.0 under its own terms.
