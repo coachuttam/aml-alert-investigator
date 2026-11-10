@@ -83,4 +83,4 @@ Risk-level accuracy for the adapter was 99.8% on test and 99.7% on held-out.
 
 ## Links
 
-Code, evaluation scripts and the investigator workflow: the `aml-alert-investigator` repository on GitHub (user `coachuttam`). Dataset: `coachuttam/aml-alert-investigator-data`.
+Code, evaluation scripts and the investigator workflow: the `aml-alert-investigator` repository on GitHub (user `coachuttam`). Dataset: `coachuttam/aml-alert-investigator-data`. Live demo of the review app: https://aml-alert-investigator.streamlit.app (shows saved answers from this model on synthetic alerts).

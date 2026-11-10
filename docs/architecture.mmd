@@ -16,12 +16,13 @@ flowchart TB
     CHECK --> EV["evaluate.py<br/>macro-F1 · false alarms · valid JSON · risk accuracy<br/>held-out scored once, at the end"]
     EV --> RES["results/ and README table"]
 
-    CHECK -. "valid verdicts" .-> INV["investigator.py<br/>6 fixed steps, case memory"]
-    INV --> APP["Streamlit review app<br/>analyst approves or overrides"]
-    APP --> AUD["audit log"]
+    CHECK -. "saved answers (results/)" .-> INV["investigator.py<br/>6 fixed steps · case note written by Python<br/>guardrails · case memory"]
+    INV --> APP["Streamlit review app<br/>live on Streamlit Community Cloud<br/>analyst approves or overrides"]
+    APP --> AUD["audit log + case files<br/>exports locked until a decision"]
+    UP["CSV upload + live model<br/>(planned)"] -.-> INV
 
     classDef done fill:#e8f3ec,stroke:#2f7d4f,color:#12301f;
     classDef plan fill:#fdf3e0,stroke:#b9770e,color:#4a2f05,stroke-dasharray:5 4;
-    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES done;
-    class INV,APP,AUD plan;
+    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES,INV,APP,AUD done;
+    class UP plan;
     style DATA fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933

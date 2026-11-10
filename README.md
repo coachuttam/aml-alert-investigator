@@ -2,9 +2,11 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (110 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The review app and the six-step investigator workflow (case files, audit log, guarded exports) run locally on saved model answers; a hosted demo and CSV upload come next.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (110 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The review app and the six-step investigator workflow (case files, audit log, guarded exports) run locally on saved model answers; the hosted demo is live (link below); CSV upload comes next.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
+
+**Live demo:** [https://aml-alert-investigator.streamlit.app](https://aml-alert-investigator.streamlit.app) (saved model answers, no GPU; a shared demo on synthetic data; it sleeps when idle, so the first visit takes about 30 seconds)
 
 Published: [fine-tuned adapter](https://huggingface.co/coachuttam/aml-alert-investigator-qwen2.5-1.5b-qlora) · [synthetic dataset](https://huggingface.co/datasets/coachuttam/aml-alert-investigator-data) (both on Hugging Face)
 
