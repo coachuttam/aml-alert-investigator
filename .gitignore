@@ -5,3 +5,6 @@ __pycache__/
 .env
 # Raw alerts are large and regenerate exactly from the seed.
 data/raw/
+
+# Analyst decisions are local logs, not part of the repo.
+audit/
