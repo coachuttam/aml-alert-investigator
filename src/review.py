@@ -7,6 +7,7 @@ Analyst decisions live in the case files and the audit log (see investigator.py)
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -37,6 +38,7 @@ TYPOLOGY_WORDS = {
 }
 
 HELDOUT_NOTE = "held-out (run once)"
+STREAMLIT_CLOUD_FOLDER = Path("/mount/src")       # where Streamlit Community Cloud puts the repo
 
 
 @dataclass(frozen=True)
@@ -59,6 +61,15 @@ class ReviewAlert:
     rules_tuned_rule_id: str
     base_typology: str
     window_end: str
+
+
+def is_shared_demo(environment=None, cloud_folder: Path = STREAMLIT_CLOUD_FOLDER) -> bool:
+    """True when the app runs on a public host (a Hugging Face Space or Streamlit Community Cloud).
+
+    There, every visitor shares the same saved decisions, so the app shows a notice.
+    """
+    environment = os.environ if environment is None else environment
+    return bool(environment.get("SPACE_ID")) or cloud_folder.exists()
 
 
 def words_for(typology: str) -> str:

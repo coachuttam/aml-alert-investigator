@@ -16,7 +16,7 @@ from src.investigator import (DecisionError, export_json, export_markdown, recor
                               run_investigation)
 from src.money import format_rupees
 from src.review import (HELDOUT_NOTE, NEEDS_REVIEW, ReviewAlert, agreement_label,
-                        load_review_alerts, read_transactions, supports_verdict,
+                        is_shared_demo, load_review_alerts, read_transactions, supports_verdict,
                         tuned_rules_config, words_for)
 from src.review_scores import build_score_table
 from src.schema import ALL_LABELS, RISK_LEVELS
@@ -274,6 +274,9 @@ def show_audit_log() -> None:
 def main() -> None:
     st.title("AML Alert Investigator")
     st.caption(SYNTHETIC_NOTE)
+    if is_shared_demo():
+        st.info("Shared demo: saved decisions are visible to other visitors and reset when the app "
+                "restarts. Please do not type personal information.")
     split = st.sidebar.selectbox("Alerts", list(SPLIT_CHOICES), index=1, format_func=SPLIT_CHOICES.get)
     alerts = pick_filters(get_alerts(split))
     st.sidebar.caption(SYNTHETIC_NOTE)

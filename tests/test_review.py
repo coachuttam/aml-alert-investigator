@@ -1,7 +1,7 @@
 """Tests for the data behind the review screen."""
 from __future__ import annotations
 
-from src.review import (NEEDS_REVIEW, ReviewAlert, agreement_label, build_review_alert,
+from src.review import (NEEDS_REVIEW, is_shared_demo, ReviewAlert, agreement_label, build_review_alert,
                         sort_for_queue, supports_verdict, words_for)
 from src.rules import DEFAULT_CONFIG
 
@@ -93,3 +93,9 @@ def test_the_app_text_never_uses_accusing_words():
     app_text = (Path(__file__).resolve().parent.parent / "app.py").read_text(encoding="utf-8").lower()
     for word in BANNED_WORDS:
         assert word not in app_text
+
+
+def test_a_public_host_is_recognised_so_the_shared_demo_notice_can_show(tmp_path):
+    assert is_shared_demo({"SPACE_ID": "someone/space"}, tmp_path / "missing")
+    assert is_shared_demo({}, tmp_path)                       # the cloud folder exists
+    assert not is_shared_demo({}, tmp_path / "missing")       # a laptop
