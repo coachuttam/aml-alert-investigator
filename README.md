@@ -120,6 +120,12 @@ This is a prototype. The gaps below are the work between it and something a bank
 
 **Model validation.** RBI's draft Guidance on Regulatory Principles for Model Risk Management (June 2026, under consultation at the time of writing) extends model governance to AI and ML models used in fraud and AML monitoring, and asks for board-approved governance, independent validation and human oversight of model-driven decisions. In practice that means a documented development process, a challenger model and sign-off before use. The rules baseline here is already a working challenger, and the held-out evaluation is already independent of training. What is missing is the documentation and the sign-off.
 
+**Monitoring.** Scores on synthetic data say nothing about live accuracy. In production the signals to watch are input drift (transaction mixes change), alert volume per typology, the rate at which the output checker rejects an answer, and above all the analyst override rate, which is the only continuous measure of whether the model is still right.
+
+**Data handling.** Names and account numbers need masking before they reach the model, encryption at rest, and access scoped by role. Nothing here calls a third-party API at inference time, which keeps that surface small.
+
+**Filing.** Under Section 12 of the PMLA, suspicious transactions are reported to FIU-IND, electronically through FINnet 2.0. A production system would draft that report from the case file for a human to review and submit. This system deliberately stops earlier: it says "refer for review" and files nothing.
+
 ## Security and privacy
 
 - Synthetic data only; no real customer data and no credentials in the repository.
