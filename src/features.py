@@ -162,8 +162,8 @@ def sender_features(credits: List[Transaction], external_debits: List[Transactio
     }
 
 
-def return_features(credits: List[Transaction], external_debits: List[Transaction]) -> Dict[str, int]:
-    """Transfers out that came back, nearly whole, within fifteen days.
+def find_returned_pairs(credits: List[Transaction], external_debits: List[Transaction]) -> List[Tuple[Transaction, Transaction]]:
+    """Pairs of (payment out, payment back) where the money came back nearly whole within RETURN_DAYS.
 
     Only transfers can be returned. Cash withdrawals, cash deposits and salary are ignored.
     """
@@ -180,6 +180,12 @@ def return_features(credits: List[Transaction], external_debits: List[Transactio
                 used.add(credit.txn_id)
                 pairs.append((debit, credit))
                 break
+    return pairs
+
+
+def return_features(credits: List[Transaction], external_debits: List[Transaction]) -> Dict[str, int]:
+    """Transfers out that came back, nearly whole, within fifteen days."""
+    pairs = find_returned_pairs(credits, external_debits)
     sent = sum(d.amount for d, _ in pairs)
     returned = sum(c.amount for _, c in pairs)
     return {
