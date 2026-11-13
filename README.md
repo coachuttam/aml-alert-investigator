@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers; CSV upload with live model calls comes next.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers. A "Live run" tab takes an uploaded transactions CSV and asks the hosted model (132 tests); it needs the model server deployed, see "Live run" below.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -57,12 +57,23 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 116 tests
+python -m pytest -q           # 132 tests
 python -m src.evaluate        # scores the rules baseline on validation and test
 streamlit run app.py          # opens the review app (uses the saved answers in results/)
 ```
 
 Training runs on Colab (a free T4 GPU is enough for the 1.5B model); heavy libraries are kept out of the laptop requirements.
+
+## Live run
+
+The "Live run" tab reads a transactions CSV (`day,amount,direction,channel,counterparty`; a sample is in `data/sample_upload.csv`), computes the features in Python, asks the fine-tuned model and shows the checked answer like any saved alert. The app has no GPU, so the model runs on [Modal](https://modal.com) and sleeps when idle:
+
+```bash
+pip install modal && modal setup
+modal deploy model_server.py      # prints the endpoint address
+```
+
+Then create a proxy auth token in the Modal dashboard and give the app three settings (environment variables locally, Secrets on Streamlit Community Cloud): `AML_MODEL_URL`, `AML_MODEL_KEY`, `AML_MODEL_SECRET`. Without them, or if the model does not answer, an upload goes to "needs review" and the rules and computed findings still run. The first call after a sleep takes about a minute. `model_server.py` has not been run in CI; check it after deploying.
 
 ## Layout
 
@@ -74,10 +85,12 @@ aml-alert-investigator/
 │              metrics.py  rules.py  evaluate.py  prompt.py  finetune.py (written)
 │              predict.py review.py review_scores.py (done)
 │              investigator.py case_note.py case_store.py audit.py (done)
+│              upload.py  live.py  remote_model.py                       (live run)
 ├─ notebooks/  finetune_qlora.ipynb      (thin Colab wrapper)
 ├─ data/       train, validation, test and held-out sets
 ├─ tests/
-└─ app.py
+├─ app.py  upload_view.py                (review app and its "Live run" tab)
+└─ model_server.py                       (hosts the model on Modal)
 ```
 
 ## Design choices
@@ -103,7 +116,8 @@ Built with Claude (Anthropic) as a coding assistant. The classifier is a fine-tu
 - Scores are on synthetic data and say nothing about real-world accuracy.
 - Thresholds are illustrative, not regulatory.
 - The analyst's decisions live in session state and are lost when the session ends.
-- Running the fine-tuned model on a CPU is slow, so the demo may use precomputed verdicts for the sample alerts.
+- The sample alerts use saved verdicts. Live uploads need the hosted model, which takes about a minute to wake.
+- An uploaded file must already use the eight channel names the generator uses; real bank exports would need a mapping step.
 
 ## Roadmap
 

@@ -5,9 +5,10 @@ alert summary and gets the raw answer text back:
 
     POST <AML_MODEL_URL>   {"summary": "..."}   ->   {"text": "{\"typology\": ...}"}
 
-The server builds the prompt with src/prompt.py, so training and live wording stay the same.
-The address and token come from the environment (on Streamlit Community Cloud, from the
-app's secrets), never from a file in the repo. Only the standard library is used.
+The server (model_server.py, on Modal) builds the prompt with src/prompt.py, so training
+and live wording stay the same. The address and the Modal proxy auth token come from the
+environment (on Streamlit Community Cloud, from the app's secrets), never from a file in
+the repo. Only the standard library is used.
 """
 from __future__ import annotations
 
@@ -18,7 +19,8 @@ import urllib.request
 from typing import Callable, Optional
 
 URL_SETTING = "AML_MODEL_URL"
-TOKEN_SETTING = "AML_MODEL_TOKEN"
+KEY_SETTING = "AML_MODEL_KEY"            # the Modal proxy auth token id
+SECRET_SETTING = "AML_MODEL_SECRET"      # the Modal proxy auth token secret
 TIMEOUT_SECONDS = 90            # a sleeping GPU machine can take about a minute to wake up
 
 GenerateFunction = Callable[[str], str]
@@ -28,12 +30,10 @@ class ModelUnavailable(Exception):
     """Raised when the hosted model cannot be reached or gives an unusable reply."""
 
 
-def post_summary(url: str, token: str, summary: str, timeout: int = TIMEOUT_SECONDS) -> str:
+def post_summary(url: str, key: str, secret: str, summary: str, timeout: int = TIMEOUT_SECONDS) -> str:
     """Send one summary and return the model's raw answer text."""
     body = json.dumps({"summary": summary}).encode("utf-8")
-    headers = {"Content-Type": "application/json"}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
+    headers = {"Content-Type": "application/json", "Modal-Key": key, "Modal-Secret": secret}
     request = urllib.request.Request(url, data=body, headers=headers, method="POST")
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -51,5 +51,6 @@ def live_generate(environment=None) -> Optional[GenerateFunction]:
     url = (environment.get(URL_SETTING) or "").strip()
     if not url.startswith("https://"):
         return None
-    token = (environment.get(TOKEN_SETTING) or "").strip()
-    return lambda summary: post_summary(url, token, summary)
+    key = (environment.get(KEY_SETTING) or "").strip()
+    secret = (environment.get(SECRET_SETTING) or "").strip()
+    return lambda summary: post_summary(url, key, secret, summary)
