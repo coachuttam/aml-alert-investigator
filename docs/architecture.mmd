@@ -17,12 +17,21 @@ flowchart TB
     EV --> RES["results/ and README table"]
 
     CHECK -. "saved answers (results/)" .-> INV["investigator.py<br/>6 fixed steps · case note written by Python<br/>guardrails · case memory"]
-    INV --> APP["Streamlit review app<br/>live on Streamlit Community Cloud<br/>analyst approves or overrides"]
+    INV --> APP["Streamlit review app<br/>live on Streamlit Community Cloud<br/>tabs: Alerts · Alert detail · Evaluation · Audit log · Live run<br/>analyst approves or overrides"]
     APP --> AUD["audit log + case files<br/>exports locked until a decision"]
-    UP["CSV upload + live model<br/>(planned)"] -.-> INV
+
+    subgraph LIVE["2 · Live run"]
+        direction LR
+        UP["upload.py<br/>reads a transactions CSV"] --> LV["live.py<br/>features → summary → model"]
+        LV --> LOC["local_model.py<br/>runs on this computer"]
+        LV --> REM["remote_model.py<br/>calls the hosted model"] --> SRV["model_server.py<br/>GPU on Modal"]
+    end
+
+    LOC --> CHECK
+    SRV --> CHECK
+    LV -- "uploaded alert" --> INV
 
     classDef done fill:#e8f3ec,stroke:#2f7d4f,color:#12301f;
-    classDef plan fill:#fdf3e0,stroke:#b9770e,color:#4a2f05,stroke-dasharray:5 4;
-    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES,INV,APP,AUD done;
-    class UP plan;
+    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES,INV,APP,AUD,UP,LV,LOC,REM,SRV done;
     style DATA fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933
+    style LIVE fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933

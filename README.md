@@ -24,7 +24,7 @@ The model labels and explains; Python counts. The model never produces a number 
 
 ![Architecture diagram](docs/architecture.png)
 
-Green boxes are built; dashed orange boxes are planned. Details are in [ARCHITECTURE.md](ARCHITECTURE.md).
+Green boxes are built. Details are in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Results
 

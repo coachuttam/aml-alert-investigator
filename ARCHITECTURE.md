@@ -6,7 +6,7 @@ The model labels and explains; Python counts. Features are computed in Python, t
 
 ![Architecture diagram](docs/architecture.png)
 
-Green boxes are built and tested; dashed orange boxes are planned. The editable source is `docs/architecture.mmd` (Mermaid); re-draw it with `mmdc -i docs/architecture.mmd -o docs/architecture.png -w 1800 -s 2 -b white`.
+Green boxes are built and tested. The editable source is `docs/architecture.mmd` (Mermaid); re-draw it with `mmdc -i docs/architecture.mmd -o docs/architecture.png -w 1800 -s 2 -b white`.
 
 Training runs on Colab; everything else runs on the laptop.
 
@@ -34,7 +34,13 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/case_store.py` | Case memory: one JSON case file per alert, added to by each step |
 | `src/audit.py` | The audit log: append-only JSON lines, one per step or decision |
 | `src/review.py`, `src/review_scores.py` | Join alerts, rules and saved model answers for the app; the Evaluation tab numbers |
-| `app.py` | Streamlit UI: Alerts, Alert detail with the investigation, Evaluation, Audit log |
+| `app.py` | Streamlit UI: Alerts, Alert detail with the investigation, Evaluation, Audit log, Live run |
+| `upload_view.py` | The "Live run" tab: upload a transactions CSV, type the customer profile, show the result like a saved alert |
+| `src/upload.py` | Reads an uploaded CSV into a `RawAlert`; a bad file raises an error that names the row |
+| `src/live.py` | The live run: uploaded alert → features → summary → model → `schema.py` checks; falls back to "needs review" if the model cannot be reached |
+| `src/local_model.py` | Runs the fine-tuned model on this computer (half precision, no GPU needed) |
+| `src/remote_model.py` | Sends one summary to the hosted model over HTTPS and returns the raw answer text |
+| `model_server.py` | Hosts the model on a Modal GPU; builds the prompt with `src/prompt.py` and requires a proxy auth token |
 | `notebooks/finetune_qlora.ipynb` | Thin Colab wrapper that clones the repo and calls `src/finetune.py` |
 
 ## Data model
