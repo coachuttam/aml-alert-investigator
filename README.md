@@ -18,7 +18,7 @@ Docs: [PRD](PRD.md) · [Architecture](ARCHITECTURE.md) · [Design system](DESIGN
 2. **Compute** every count, amount and ratio in Python, and render an alert summary from them.
 3. **Fine-tune** Qwen2.5-1.5B-Instruct with QLoRA on Google Colab to return JSON: `typology`, `risk`, `reason`.
 4. **Compare** the fine-tuned model with threshold rules and the un-tuned base model on data it never saw.
-5. **Investigate** through six fixed steps, ending with the analyst's decision and an audit log.
+5. **Investigate** through six fixed steps, ending with the analyst's decision and an audit log. Each computed finding links to the transaction rows it was computed from, in the app and in the exported case note.
 
 The model labels and explains; Python counts. The model never produces a number that is not already in its input, and a check enforces it.
 
@@ -94,11 +94,12 @@ aml-alert-investigator/
 │              metrics.py  rules.py  evaluate.py  prompt.py  finetune.py (written)
 │              predict.py review.py review_scores.py (done)
 │              investigator.py case_note.py case_store.py audit.py (done)
+│              evidence.py                                          (finding → rows)
 │              upload.py  live.py  remote_model.py  local_model.py       (live run)
 ├─ notebooks/  finetune_qlora.ipynb      (thin Colab wrapper)
 ├─ data/       train, validation, test and held-out sets
 ├─ tests/
-├─ app.py  upload_view.py                (review app and its "Live run" tab)
+├─ app.py  evidence_view.py  upload_view.py   (review app, finding rows, "Live run" tab)
 └─ model_server.py                       (hosts the model on Modal)
 ```
 
@@ -107,6 +108,7 @@ aml-alert-investigator/
 - **Honest evaluation.** Customers are split before any data is generated, and each belongs to exactly one set. The held-out set also uses reserved wording templates and amount ranges, and is run once at the end.
 - **Hard negatives.** Legitimate look-alikes are in the training and test data, so the false-positive rate is measured, not hoped for.
 - **Fixed workflow, not a free-roaming agent.** Small models call tools unreliably, so the model is used as the classifier inside a predictable sequence. An LLM planner is a later upgrade.
+- **Findings point at their rows.** Python records which transactions each finding was computed from, using the same thresholds as the features. The analyst can open any finding and see them, and the case note lists their ids.
 - **Review, never accuse.** The system says "refer for review". Nothing is filed or sent without the analyst.
 - **Readable code.** Plain names, short functions, docstrings and named constants, so every file can be read and explained.
 

@@ -31,10 +31,12 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/evaluate.py` | Scores systems on validation and test; held-out only with `--final` |
 | `src/investigator.py` | The six-step workflow, analyst decision, and exports that stay blocked until the analyst decides |
 | `src/case_note.py` | Plain-English findings and the draft case note, written by Python from computed numbers; the banned-wording check |
+| `src/evidence.py` | Maps each computed finding to the transaction ids behind it, reusing the thresholds and helpers in `features.py` and `patterns.py` |
 | `src/case_store.py` | Case memory: one JSON case file per alert, added to by each step |
 | `src/audit.py` | The audit log: append-only JSON lines, one per step or decision |
 | `src/review.py`, `src/review_scores.py` | Join alerts, rules and saved model answers for the app; the Evaluation tab numbers |
 | `app.py` | Streamlit UI: Alerts, Alert detail with the investigation, Evaluation, Audit log, Live run |
+| `evidence_view.py` | Shows each finding with an expander of its rows, and marks the cited rows in the evidence table |
 | `upload_view.py` | The "Live run" tab: upload a transactions CSV, type the customer profile, show the result like a saved alert |
 | `src/upload.py` | Reads an uploaded CSV into a `RawAlert`; a bad file raises an error that names the row |
 | `src/live.py` | The live run: uploaded alert → features → summary → model → `schema.py` checks; falls back to "needs review" if the model cannot be reached |
