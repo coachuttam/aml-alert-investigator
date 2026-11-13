@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from src.live import MODEL_NOT_CONNECTED, build_live_alert, new_upload_id
+from src.local_model import local_generate, wants_local_model
 from src.models import Customer
 from src.remote_model import ModelUnavailable, live_generate
 from src.review import NEEDS_REVIEW
@@ -92,3 +93,9 @@ def test_live_model_is_off_unless_a_secure_address_is_set():
 
 def test_upload_ids_are_readable():
     assert new_upload_id().startswith("U-20")
+
+
+def test_the_local_model_is_only_loaded_when_asked_for():
+    assert not wants_local_model({}) and not wants_local_model({"AML_LOCAL_MODEL": "0"})
+    assert wants_local_model({"AML_LOCAL_MODEL": "1"})
+    assert local_generate({}) is None

@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers. A "Live run" tab takes an uploaded transactions CSV and asks the hosted model (132 tests); it needs the model server deployed, see "Live run" below.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers. A "Live run" tab takes an uploaded transactions CSV and asks the hosted model (133 tests); it needs the model server deployed, see "Live run" below.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -57,7 +57,7 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 132 tests
+python -m pytest -q           # 133 tests
 python -m src.evaluate        # scores the rules baseline on validation and test
 streamlit run app.py          # opens the review app (uses the saved answers in results/)
 ```
@@ -75,6 +75,15 @@ modal deploy model_server.py      # prints the endpoint address
 
 Then create a proxy auth token in the Modal dashboard and give the app three settings (environment variables locally, Secrets on Streamlit Community Cloud): `AML_MODEL_URL`, `AML_MODEL_KEY`, `AML_MODEL_SECRET`. Without them, or if the model does not answer, an upload goes to "needs review" and the rules and computed findings still run. The first call after a sleep takes about a minute. `model_server.py` has not been run in CI; check it after deploying.
 
+To run the model on your own computer instead (no cloud, nothing leaves the machine):
+
+```bash
+pip install -r requirements-local.txt
+AML_LOCAL_MODEL=1 streamlit run app.py
+```
+
+The first live run downloads the base model (about 3 GB) and takes a few minutes; later runs answer in seconds. On a Mac the base model is loaded at half precision, not the 4-bit copy used for the published scores, so answers should match closely but this setup was not the one scored.
+
 ## Layout
 
 ```
@@ -85,7 +94,7 @@ aml-alert-investigator/
 │              metrics.py  rules.py  evaluate.py  prompt.py  finetune.py (written)
 │              predict.py review.py review_scores.py (done)
 │              investigator.py case_note.py case_store.py audit.py (done)
-│              upload.py  live.py  remote_model.py                       (live run)
+│              upload.py  live.py  remote_model.py  local_model.py       (live run)
 ├─ notebooks/  finetune_qlora.ipynb      (thin Colab wrapper)
 ├─ data/       train, validation, test and held-out sets
 ├─ tests/

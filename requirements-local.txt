@@ -1,0 +1,6 @@
+# Only for running the fine-tuned model on this computer (AML_LOCAL_MODEL=1).
+# The app and the tests do not need these; see requirements.txt.
+torch
+transformers>=4.46
+peft>=0.13
+accelerate>=1.0

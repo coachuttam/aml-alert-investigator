@@ -12,6 +12,7 @@ from typing import Callable
 import streamlit as st
 
 from src.live import build_live_alert, new_upload_id
+from src.local_model import local_generate, wants_local_model
 from src.models import Customer
 from src.remote_model import live_generate
 from src.upload import UploadError, read_upload, transaction_rows
@@ -28,7 +29,10 @@ def show_intro() -> None:
                "Use synthetic or made-up data only.")
     st.download_button("Download a sample file", SAMPLE_FILE.read_text(encoding="utf-8"),
                        file_name="sample_upload.csv", mime="text/csv")
-    if live_generate() is None:
+    if wants_local_model():
+        st.info("The model runs on this computer. Nothing is sent anywhere. "
+                "The first run loads the model, which takes a few minutes.")
+    elif live_generate() is None:
         st.warning("The live model is not connected here, so uploads go to \"needs review\". "
                    "The computed findings and the rules still run.")
 
@@ -42,6 +46,11 @@ def ask_profile() -> Customer:
     return Customer("C-upload", occupation.strip() or "not stated", int(income), int(age))
 
 
+def pick_generate():
+    """The model on this computer if it was asked for, otherwise the hosted one (or None)."""
+    return local_generate() or live_generate()
+
+
 def run_live(csv_text: str, customer: Customer, tuned_config) -> None:
     """Read the file, ask the model and keep the result for the screen."""
     try:
@@ -49,9 +58,16 @@ def run_live(csv_text: str, customer: Customer, tuned_config) -> None:
     except UploadError as problem:
         st.error(str(problem))
         return
+    try:
+        with st.spinner("Getting the fine-tuned model ready (the first time takes a few minutes)..."):
+            generate = pick_generate()
+    except Exception as problem:     # a missing library or a failed download must not crash the screen
+        st.error(f"The model on this computer could not be loaded: {problem}. "
+                 "Check that `pip install -r requirements-local.txt` finished.")
+        return
     started = time.monotonic()
-    with st.spinner("Asking the fine-tuned model (the first call can take a minute)..."):
-        alert = build_live_alert(raw, live_generate(), tuned_config)
+    with st.spinner("Asking the fine-tuned model..."):
+        alert = build_live_alert(raw, generate, tuned_config)
     st.session_state[LIVE_KEY] = (alert, transaction_rows(raw), time.monotonic() - started)
 
 
