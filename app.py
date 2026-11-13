@@ -1,7 +1,7 @@
 """Review screen for the AML Alert Investigator. Run with:  streamlit run app.py
 
 It shows saved answers from the fine-tuned model next to the rules and the base model,
-so no GPU is needed. Layout and wording follow DESIGN_SYSTEM.md.
+so no GPU is needed. The "Live run" tab sends an uploaded file to the hosted model. Layout and wording follow DESIGN_SYSTEM.md.
 """
 from __future__ import annotations
 
@@ -20,6 +20,8 @@ from src.review import (HELDOUT_NOTE, NEEDS_REVIEW, ReviewAlert, agreement_label
                         tuned_rules_config, words_for)
 from src.review_scores import build_score_table
 from src.schema import ALL_LABELS, RISK_LEVELS
+from src.upload import UPLOAD_SPLIT
+from upload_view import show_upload
 
 SPLIT_CHOICES = {"validation": "validation", "test": "test", "heldout": HELDOUT_NOTE}
 RISK_COLOURS = {"low": "rgba(46,160,67,0.18)", "medium": "rgba(210,153,34,0.22)",
@@ -124,12 +126,12 @@ def show_verdict(alert: ReviewAlert) -> None:
 
 
 def show_comparison(alert: ReviewAlert) -> None:
-    table = pd.DataFrame({
-        "System": ["Fine-tuned model", f"Rules, tuned on train (rule {alert.rules_tuned_rule_id})",
-                   "Rules, default thresholds", "Base model (no training)", "True label (synthetic)"],
-        "Says": [words_for(alert.model_typology), words_for(alert.rules_tuned),
-                 words_for(alert.rules_default), words_for(alert.base_typology), words_for(alert.true_typology)],
-    })
+    rows = [("Fine-tuned model", alert.model_typology),
+            (f"Rules, tuned on train (rule {alert.rules_tuned_rule_id})", alert.rules_tuned),
+            ("Rules, default thresholds", alert.rules_default)]
+    if alert.split != UPLOAD_SPLIT:      # an uploaded alert has no saved base answer and no true label
+        rows += [("Base model (no training)", alert.base_typology), ("True label (synthetic)", alert.true_typology)]
+    table = pd.DataFrame({"System": [name for name, _ in rows], "Says": [words_for(label) for _, label in rows]})
     if alert.look_alike_kind:
         st.caption(f"This is a legitimate look-alike alert ({alert.look_alike_kind.replace('_', ' ')}).")
     show_table(table)
@@ -220,7 +222,11 @@ def show_detail(alerts: List[ReviewAlert], split: str) -> None:
         return
     chosen_id = st.selectbox("Alert", [alert.alert_id for alert in alerts])
     alert = next(a for a in alerts if a.alert_id == chosen_id)
-    transactions = get_transactions(split).get(alert.alert_id, [])
+    show_alert(alert, get_transactions(split).get(alert.alert_id, []))
+
+
+def show_alert(alert: ReviewAlert, transactions: List[dict]) -> None:
+    """One alert in full: what the model read, the evidence, the verdict and the investigation."""
     show_header(alert, len(transactions))
     left, right = st.columns([3, 2])
     with left:
@@ -281,12 +287,14 @@ def main() -> None:
     alerts = pick_filters(get_alerts(split))
     st.sidebar.caption(SYNTHETIC_NOTE)
     event_count = len(read_events())
-    queue_tab, detail_tab, evaluation_tab, audit_tab = st.tabs(
-        [f"Alerts ({len(alerts)})", "Alert detail", "Evaluation", f"Audit log ({event_count})"])
+    queue_tab, detail_tab, live_tab, evaluation_tab, audit_tab = st.tabs(
+        [f"Alerts ({len(alerts)})", "Alert detail", "Live run", "Evaluation", f"Audit log ({event_count})"])
     with queue_tab:
         show_queue(alerts)
     with detail_tab:
         show_detail(alerts, split)
+    with live_tab:
+        show_upload(get_tuned_config(), show_alert)
     with evaluation_tab:
         show_evaluation()
     with audit_tab:

@@ -1,0 +1,27 @@
+day,amount,direction,channel,counterparty
+2026-09-01,8200,credit,upi,Delivery platform payout
+2026-09-04,7200,credit,upi,Delivery platform payout
+2026-09-04,930,debit,upi,Online shopping
+2026-09-04,43700,credit,cash,Cash deposit
+2026-09-04,40900,credit,cash,Cash deposit
+2026-09-04,40100,credit,cash,Cash deposit
+2026-09-05,9500,debit,neft,Landlord
+2026-09-05,7500,debit,atm,ATM withdrawal
+2026-09-05,41700,credit,cash,Cash deposit
+2026-09-07,42900,credit,cash,Cash deposit
+2026-09-08,840,debit,upi,Fuel station
+2026-09-09,440,debit,upi,Grocery store
+2026-09-09,9500,debit,atm,ATM withdrawal
+2026-09-09,44300,credit,cash,Cash deposit
+2026-09-10,223000,debit,neft,Suresh Patel
+2026-09-13,7200,credit,upi,Delivery platform payout
+2026-09-14,975,debit,upi,Mobile and broadband
+2026-09-14,1100,debit,upi,Mobile recharge
+2026-09-14,4000,debit,atm,ATM withdrawal
+2026-09-16,3111,debit,upi,Electricity board
+2026-09-19,400,debit,upi,Mobile recharge
+2026-09-22,480,debit,upi,Mobile recharge
+2026-09-23,7400,credit,upi,Delivery platform payout
+2026-09-23,1150,debit,upi,Grocery store
+2026-09-23,660,debit,upi,Food delivery
+2026-09-23,240,debit,upi,Pharmacy

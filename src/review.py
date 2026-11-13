@@ -35,6 +35,7 @@ TYPOLOGY_WORDS = {
     "ROUND_TRIPPING": "Round-tripping",
     NO_CONCERN: "No concern",
     NEEDS_REVIEW: "Needs review",
+    "NOT_KNOWN": "Not known",          # the true label of an uploaded alert (see upload.py)
 }
 
 HELDOUT_NOTE = "held-out (run once)"
