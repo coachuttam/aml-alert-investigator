@@ -9,6 +9,7 @@ from src.audit import read_events
 from src.case_note import GuardrailError, assert_clean_wording, build_findings, draft_case_note
 from src.case_store import AWAITING_ANALYST, DECIDED, NEEDS_REVIEW_STATUS, load_case
 from src.dataset import load_split
+from src.evidence import findings_for_rows
 from src.investigator import (DecisionError, ExportBlockedError, export_json, export_markdown,
                               record_decision, run_investigation)
 from src.review import ReviewAlert, build_review_alert
@@ -16,8 +17,10 @@ from src.rules import DEFAULT_CONFIG
 from src.schema import numbers_in
 
 DATA_FOLDER = Path(__file__).resolve().parent.parent / "data"
-TRANSACTIONS = [{"day": "2026-06-01", "direction": "credit", "channel": "cash", "amount": 45000},
-                {"day": "2026-06-03", "direction": "credit", "channel": "cash", "amount": 46000}]
+TRANSACTIONS = [{"txn_id": "A-1-T001", "day": "2026-06-01", "direction": "credit", "channel": "cash",
+                 "amount": 45000, "counterparty": "Cash deposit"},
+                {"txn_id": "A-1-T002", "day": "2026-06-03", "direction": "credit", "channel": "cash",
+                 "amount": 46000, "counterparty": "Cash deposit"}]
 
 
 def make_features() -> dict:
@@ -75,7 +78,7 @@ def test_missing_transactions_are_reported_not_hidden(tmp_path):
 def test_the_case_note_is_refused_if_it_would_contain_an_accusing_word(tmp_path):
     alert = make_alert(reason="Looks like fraud to me.")
     with pytest.raises(GuardrailError):
-        draft_case_note(alert, build_findings(alert.features))
+        draft_case_note(alert, findings_for_rows(alert.features, TRANSACTIONS))
     _, case = run(tmp_path, alert)
     assert case.steps[4].status == "needs_review"
     assert "withheld" in case.note
@@ -136,3 +139,16 @@ def test_the_wording_check_catches_banned_words_in_any_case():
     with pytest.raises(GuardrailError):
         assert_clean_wording("A Criminal pattern")
     assert_clean_wording("Refer for review")
+
+
+def test_the_case_note_lists_the_row_ids_behind_each_finding(tmp_path):
+    _, case = run(tmp_path)
+    assert "just under the reporting limit within 2 days, totalling ₹91,000. (rows: A-1-T001, A-1-T002)" in case.note
+    money_line = next(line for line in case.note.splitlines() if line.startswith("- Money in was"))
+    assert "(rows" not in money_line
+
+
+def test_step_three_summary_and_details_do_not_change_when_rows_are_added(tmp_path):
+    _, case = run(tmp_path)
+    assert case.steps[2].summary == "Computed 2 findings."
+    assert case.steps[2].details == build_findings(make_alert().features)

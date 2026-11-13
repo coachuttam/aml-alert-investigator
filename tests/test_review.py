@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from src.review import (NEEDS_REVIEW, is_shared_demo, ReviewAlert, agreement_label, build_review_alert,
-                        sort_for_queue, supports_verdict, words_for)
+                        sort_for_queue, words_for)
 from src.rules import DEFAULT_CONFIG
 
 STRUCTURING_FEATURES = {
@@ -72,27 +72,14 @@ def test_typology_names_become_plain_words():
     assert words_for(NEEDS_REVIEW) == "Needs review"
 
 
-def test_just_under_limit_cash_credits_support_a_structuring_verdict():
-    deposit = {"direction": "credit", "channel": "cash", "amount": 45_000}
-    small_deposit = {"direction": "credit", "channel": "cash", "amount": 9_000}
-    upi = {"direction": "credit", "channel": "upi", "amount": 45_000}
-    assert supports_verdict(deposit, "STRUCTURING")
-    assert not supports_verdict(small_deposit, "STRUCTURING")
-    assert not supports_verdict(upi, "STRUCTURING")
-
-
-def test_large_credits_support_a_pass_through_verdict_and_debits_never_do():
-    assert supports_verdict({"direction": "credit", "channel": "neft", "amount": 80_000}, "RAPID_PASS_THROUGH")
-    assert not supports_verdict({"direction": "debit", "channel": "neft", "amount": 80_000}, "RAPID_PASS_THROUGH")
-    assert not supports_verdict({"direction": "credit", "channel": "neft", "amount": 80_000}, "NO_CONCERN")
-
-
 def test_the_app_text_never_uses_accusing_words():
     from pathlib import Path
     from src.schema import BANNED_WORDS
-    app_text = (Path(__file__).resolve().parent.parent / "app.py").read_text(encoding="utf-8").lower()
-    for word in BANNED_WORDS:
-        assert word not in app_text
+    root = Path(__file__).resolve().parent.parent
+    for name in ("app.py", "evidence_view.py", "upload_view.py"):
+        screen_text = (root / name).read_text(encoding="utf-8").lower()
+        for word in BANNED_WORDS:
+            assert word not in screen_text
 
 
 def test_a_public_host_is_recognised_so_the_shared_demo_notice_can_show(tmp_path):

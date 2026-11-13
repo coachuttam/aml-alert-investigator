@@ -20,6 +20,7 @@ from src.audit import AUDIT_LOG, append_event, now_text
 from src.case_note import GuardrailError, assert_clean_wording, build_findings, draft_case_note
 from src.case_store import (AWAITING_ANALYST, CASE_FOLDER, DECIDED, NEEDS_REVIEW_STATUS, Case,
                             StepRecord, save_case)
+from src.evidence import findings_for_rows
 from src.review import NEEDS_REVIEW, ReviewAlert, agreement_label, words_for
 from src.schema import ALL_LABELS, RISK_LEVELS
 
@@ -70,8 +71,12 @@ def classify_step(alert: ReviewAlert) -> StepRecord:
                       f"{words_for(alert.model_typology)}, risk {alert.model_risk}.", details)
 
 
-def draft_note_step(alert: ReviewAlert, findings: List[str]) -> tuple:
-    """Step 5: returns (step record, note text). A failed wording check withholds the note."""
+def draft_note_step(alert: ReviewAlert, transactions: List[dict]) -> tuple:
+    """Step 5: returns (step record, note text). A failed wording check withholds the note.
+
+    Each finding in the note carries the ids of the transactions behind it.
+    """
+    findings = findings_for_rows(alert.features, transactions)
     try:
         note = draft_case_note(alert, findings)
     except GuardrailError as problem:
@@ -90,7 +95,7 @@ def run_investigation(alert: ReviewAlert, transactions: List[dict], case_folder:
     """Run steps 1 to 5, log each one, save the case file and wait for the analyst."""
     steps = [load_alert_step(alert), fetch_transactions_step(transactions),
              compute_findings_step(alert), classify_step(alert)]
-    note_step, note = draft_note_step(alert, steps[2].details)
+    note_step, note = draft_note_step(alert, transactions)
     steps += [note_step, waiting_step()]
     for step in steps[:5]:
         append_event(alert.alert_id, f"step {step.number}: {step.name.lower()}", after=f"{step.status}: {step.summary}",

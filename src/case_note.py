@@ -5,7 +5,7 @@ compute. The wording check refuses any accusing word before a note is shown or s
 """
 from __future__ import annotations
 
-from typing import List
+from typing import List, Tuple
 
 from src.money import format_rupees, plural
 from src.review import NEEDS_REVIEW, ReviewAlert, agreement_label, words_for
@@ -83,8 +83,18 @@ def next_step_for(alert: ReviewAlert) -> str:
     return "Refer for review by a senior analyst before any action. Nothing has been filed or sent."
 
 
-def draft_case_note(alert: ReviewAlert, findings: List[str]) -> str:
-    """The draft case note as Markdown. Raises GuardrailError if the wording check fails."""
+def finding_line(text: str, rows: List[str]) -> str:
+    """A finding with the ids of the rows behind it, e.g. "... (rows: A-1-T003, A-1-T007)"."""
+    if not rows:
+        return text
+    return f"{text} (rows: {', '.join(rows)})"
+
+
+def draft_case_note(alert: ReviewAlert, findings: List[Tuple[str, List[str]]]) -> str:
+    """The draft case note as Markdown. Raises GuardrailError if the wording check fails.
+
+    `findings` are (text, row ids) pairs from evidence.build_findings_with_rows.
+    """
     lines = [
         f"# Case note: {alert.alert_id}",
         "",
@@ -93,7 +103,7 @@ def draft_case_note(alert: ReviewAlert, findings: List[str]) -> str:
     ]
     if alert.model_reason:
         lines.append(f"**Model reason:** {alert.model_reason}")
-    lines += ["", "## Computed findings"] + [f"- {finding}" for finding in findings]
+    lines += ["", "## Computed findings"] + [f"- {finding_line(text, rows)}" for text, rows in findings]
     lines += ["", "## Cross-check", agreement_label(alert), "", "## Suggested next step", next_step_for(alert),
               "", f"_{SYNTHETIC_NOTE}_"]
     note = "\n".join(lines)

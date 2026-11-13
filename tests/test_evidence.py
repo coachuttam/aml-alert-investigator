@@ -4,7 +4,9 @@ from datetime import date, timedelta
 from functools import lru_cache
 
 from src.case_note import build_findings
-from src.evidence import EVIDENCE_KINDS, build_findings_with_rows, rows_for
+from src.evidence import (EVIDENCE_KINDS, build_findings_with_rows, cited_ids, findings_for_rows,
+                          rows_for)
+from src.review import read_transactions
 from src.features import compute_features
 from src.generator import generate_all
 from src.models import Customer, RawAlert, Transaction
@@ -94,3 +96,18 @@ def test_findings_with_rows_keep_the_wording_and_order_of_build_findings():
         features = features_of(alert)
         texts = [text for text, _ in build_findings_with_rows(features, alert.transactions)]
         assert texts == build_findings(features)
+
+
+def test_findings_from_screen_rows_match_findings_from_transactions():
+    alert = alerts_with("MULE_ACCOUNT")[0]
+    rows = [{"txn_id": t.txn_id, "day": t.day.isoformat(), "amount": t.amount, "direction": t.direction,
+             "channel": t.channel, "counterparty": t.counterparty} for t in alert.transactions]
+    features = features_of(alert)
+    assert findings_for_rows(features, rows) == build_findings_with_rows(features, alert.transactions)
+
+
+def test_mule_and_round_trip_rows_are_cited_so_the_table_marks_them():
+    for typology in ("MULE_ACCOUNT", "ROUND_TRIPPING"):
+        alert = alerts_with(typology)[0]
+        findings = build_findings_with_rows(features_of(alert), alert.transactions)
+        assert cited_ids(findings)

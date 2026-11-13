@@ -6,7 +6,8 @@ new thresholds: the constants and helpers come from features.py and patterns.py.
 """
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from datetime import date
+from typing import Dict, List, Set, Tuple
 
 from src import case_note
 from src.features import (LARGE_AMOUNT, MIN_SENDERS, QUICK_EXIT_DAYS, busiest_week,
@@ -86,3 +87,19 @@ def build_findings_with_rows(features: Dict, transactions: List[Transaction]) ->
         kind = kind_by_text.get(text)
         pairs.append((text, rows_for(kind, transactions, features) if kind else []))
     return pairs
+
+
+def transactions_from_rows(rows: List[dict]) -> List[Transaction]:
+    """Turn the plain dicts the screen holds (text dates) back into Transactions."""
+    return [Transaction(row["txn_id"], date.fromisoformat(row["day"]), row["amount"], row["direction"],
+                        row["channel"], row["counterparty"]) for row in rows]
+
+
+def findings_for_rows(features: Dict, rows: List[dict]) -> List[Tuple[str, List[str]]]:
+    """build_findings_with_rows for transactions given as dicts. No rows means no evidence ids."""
+    return build_findings_with_rows(features, transactions_from_rows(rows))
+
+
+def cited_ids(findings: List[Tuple[str, List[str]]]) -> Set[str]:
+    """Every txn_id that at least one finding points at."""
+    return {txn_id for _, ids in findings for txn_id in ids}

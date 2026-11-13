@@ -14,8 +14,6 @@ from typing import Dict, List, Optional
 
 from src.dataset import load_split
 from src.evaluate import load_predictions, typology_of
-from src.features import LARGE_AMOUNT
-from src.patterns import CASH_REPORTING_LIMIT, JUST_UNDER_HIGH, JUST_UNDER_LOW
 from src.rules import DEFAULT_CONFIG, classify, tune_on_training_set
 from src.schema import NO_CONCERN
 
@@ -152,21 +150,6 @@ def load_review_alerts(split: str, tuned_config) -> List[ReviewAlert]:
                                  base.get(example["alert_id"]), window_ends.get(example["alert_id"], ""))
               for example in examples]
     return sort_for_queue(alerts)
-
-
-def supports_verdict(transaction: dict, typology: str) -> bool:
-    """True for rows we can point to as evidence for structuring or pass-through verdicts.
-
-    Mule and round-trip evidence needs several rows together, so those rows are not marked.
-    """
-    if transaction["direction"] != "credit":
-        return False
-    if typology == "STRUCTURING":
-        just_under = CASH_REPORTING_LIMIT * JUST_UNDER_LOW <= transaction["amount"] <= CASH_REPORTING_LIMIT * JUST_UNDER_HIGH
-        return transaction["channel"] == "cash" and just_under
-    if typology == "RAPID_PASS_THROUGH":
-        return transaction["amount"] >= LARGE_AMOUNT
-    return False
 
 
 def agreement_label(alert: ReviewAlert) -> str:
