@@ -110,6 +110,16 @@ aml-alert-investigator/
 - **Review, never accuse.** The system says "refer for review". Nothing is filed or sent without the analyst.
 - **Readable code.** Plain names, short functions, docstrings and named constants, so every file can be read and explained.
 
+## What production would need
+
+This is a prototype. The gaps below are the work between it and something a bank could run. They are listed because knowing them is part of the job.
+
+**Deployment inside the bank.** Customer transactions cannot leave the bank's control, so the model has to run on their hardware or inside their own cloud account. The classifier is an open-weights model with a 74 MB adapter, so this is a deployment question, not a licensing one — no request leaves the building. Today it runs on a laptop or a hosted GPU.
+
+**Audit store.** Every step, model answer and analyst decision is already logged, but to local JSON lines. A bank needs an append-only store with retention set by policy, where a record cannot be altered after it is written, and the log has to survive the application being redeployed.
+
+**Model validation.** RBI's draft Guidance on Regulatory Principles for Model Risk Management (June 2026, under consultation at the time of writing) extends model governance to AI and ML models used in fraud and AML monitoring, and asks for board-approved
+
 ## Security and privacy
 
 - Synthetic data only; no real customer data and no credentials in the repository.
