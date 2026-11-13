@@ -17,7 +17,7 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/models.py` | Plain data containers: `Transaction`, `Customer`, `RawAlert` |
 | `src/names.py` | Two pools of made-up names: one for train, validation and test, one only for the held-out set |
 | `src/patterns.py` | Builds a 30-day history: everyday income and spending, then one planted typology or look-alike |
-| `src/generator.py` | Split plans, customers, deterministic generation (seed 42) and saving raw alerts to `data/raw/` (not committed) |
+| `src/generator.py` | Split plans, customers, deterministic generation (seed 42) and saving raw alerts to `data/raw/` (validation, test and held-out are committed so the hosted demo can show transactions; `train.jsonl` is large and regenerates exactly from the seed) |
 | `src/money.py` | Rupee formatting with Indian digit grouping, and plurals |
 | `src/features.py` | Computes every number about an alert (cash, large credits, sender bursts, returned money, payees, totals), the risk level and the one-line reason |
 | `src/templates.py` | Five wording templates (three shared, two reserved for held-out) that render the same facts as summary text |
@@ -42,6 +42,8 @@ Training runs on Colab; everything else runs on the laptop.
 | `src/live.py` | The live run: uploaded alert → features → summary → model → `schema.py` checks; falls back to "needs review" if the model cannot be reached |
 | `src/local_model.py` | Runs the fine-tuned model on this computer (half precision, no GPU needed) |
 | `src/remote_model.py` | Sends one summary to the hosted model over HTTPS and returns the raw answer text |
+| `src/build_space.py` | Builds the folder for a Hugging Face Space demo and can upload it (needs a PRO plan for Docker Spaces; the live demo runs on Streamlit Community Cloud instead) |
+| `src/publish.py` | Publishes the trained adapter and the dataset to Hugging Face; the token comes from `HF_TOKEN` |
 | `model_server.py` | Hosts the model on a Modal GPU; builds the prompt with `src/prompt.py` and requires a proxy auth token |
 | `notebooks/finetune_qlora.ipynb` | Thin Colab wrapper that clones the repo and calls `src/finetune.py` |
 
@@ -49,13 +51,11 @@ Training runs on Colab; everything else runs on the laptop.
 
 `RawAlert` (generator output): `alert_id`, `split`, `template_group` (shared or heldout), `customer`, `window_start`, `window_end`, `transactions`, `typology`, `hard_negative_kind`. Each customer appears in exactly one alert.
 
-`Alert` (training example, built from a `RawAlert` in the features step): `alert_id`, `customer_id`, `profile` (occupation, declared monthly income, account age in months), `window_days`, `features` (dict of computed values), `summary` (rendered text), `template_id`, `split`, `hard_negative`, `label` (typology, risk, reason).
+`Alert` (training example, built from a `RawAlert` in the features step; one line of `data/<split>.jsonl`): `alert_id`, `customer_id`, `split`, `template_id`, `hard_negative_kind`, `features` (dict of computed values, including occupation, income and account age), `summary` (rendered text), `label` (typology, risk, reason).
 
 `Customer`: `customer_id`, `occupation`, `declared_monthly_income`, `account_age_months`.
 
 `Transaction`: `txn_id`, `day`, `amount` (whole rupees, positive), `direction`, `channel`, `counterparty`.
-
-`Verdict`: `alert_id`, `typology`, `risk`, `reason`, `source` (rules, base, fine-tuned or analyst), `valid`, `created_at`.
 
 `AuditEvent`: `time`, `alert_id`, `action`, `before`, `after`, `note`. The original alert is never changed; analyst decisions are overlays.
 
@@ -89,7 +89,7 @@ Training runs on Colab; everything else runs on the laptop.
 2. Fetch the account's transactions for the window.
 3. Compute velocity and profile comparison.
 4. Classify with the fine-tuned model.
-5. Draft a case note from the verdict and the evidence.
+5. Draft a case note from the verdict and the computed findings. Each finding in the note lists the ids of the transaction rows it was computed from.
 6. Analyst approves or overrides.
 
 Case memory is a JSON case file per alert (`audit/cases/`) that later steps add to; reopening an alert loads it. Step 4 shows the saved fine-tuned answer, and step 5 is written by Python, not by a model. Guardrails: banned wording is rejected, and nothing with side effects runs before step 6.
@@ -112,14 +112,14 @@ Metrics: per-typology precision, recall and F1; macro-F1; false-positive rate on
 | Change | Where |
 | --- | --- |
 | New typology | Generator pattern, feature, label list in `schema.py`, rule, and retrain |
-| New wording template | `features.py` template list; mark it train, validation, test or held-out |
+| New wording template | `src/templates.py` (`SHARED_TEMPLATES` or `HELDOUT_TEMPLATES`) |
 | Larger base model | `finetune.py` model argument; keep the same prompt format |
 | LLM planner | Replace the fixed sequence in `investigator.py`, keeping the same guardrails |
-| Persistent audit log | Replace session state in `app.py` with a store keyed by case id |
+| Stronger audit store | Decisions already persist in `audit/cases/*.json` and `audit/audit_log.jsonl`; replace those local files with an append-only store with retention (see the README's production section) |
 
 ## Known limits
 
 - All data is synthetic, so scores say nothing about real-world accuracy.
 - Thresholds are illustrative, not regulatory.
-- Corrections live in session state and are lost when the session ends.
+- Analyst decisions persist in `audit/cases/*.json` and `audit/audit_log.jsonl`, which are local files and not in the repo. On the shared hosted demo they are visible to other visitors and reset when the app restarts.
 - CPU inference of the fine-tuned model is slow; the demo can use precomputed verdicts.

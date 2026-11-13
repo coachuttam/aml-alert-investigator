@@ -8,7 +8,7 @@ Instructions for AI coding agents (Claude Code, Cursor, Codex) working in this r
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt          # light: data, rules, evaluation, app
 python -m pytest -q                      # must stay green
-python -m src.generator                  # regenerate data/raw/ (deterministic, seed 42; not committed)
+python -m src.generator                  # regenerate data/raw/ (deterministic, seed 42; only validation, test and held-out are committed, train.jsonl is not)
 python -m src.dataset                    # rebuild data/*.jsonl (summaries, labels, features; committed)
 python -m src.evaluate                   # report test and held-out results after any change
 streamlit run app.py

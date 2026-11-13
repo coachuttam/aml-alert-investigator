@@ -17,6 +17,7 @@ flowchart TB
     EV --> RES["results/ and README table"]
 
     CHECK -. "saved answers (results/)" .-> INV["investigator.py<br/>6 fixed steps · case note written by Python<br/>guardrails · case memory"]
+    EVID["evidence.py<br/>maps each finding to its transaction rows<br/>row ids go into the case note"] --> INV
     INV --> APP["Streamlit review app<br/>live on Streamlit Community Cloud<br/>tabs: Alerts · Alert detail · Evaluation · Audit log · Live run<br/>analyst approves or overrides"]
     APP --> AUD["audit log + case files<br/>exports locked until a decision"]
 
@@ -32,6 +33,6 @@ flowchart TB
     LV -- "uploaded alert" --> INV
 
     classDef done fill:#e8f3ec,stroke:#2f7d4f,color:#12301f;
-    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES,INV,APP,AUD,UP,LV,LOC,REM,SRV done;
+    class GEN,FEAT,TPL,DS,RULES,BASE,FT,AD,PRED,CHECK,EV,RES,INV,EVID,APP,AUD,UP,LV,LOC,REM,SRV done;
     style DATA fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933
     style LIVE fill:#f6f8fa,stroke:#9aa5b1,color:#1f2933

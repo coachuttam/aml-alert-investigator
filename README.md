@@ -2,7 +2,7 @@
 
 A small open language model, fine-tuned with QLoRA, that reads an anti-money-laundering alert and returns a typology, a risk level and a one-line reason. A fixed investigation workflow wraps it, and an analyst approves or overrides every verdict.
 
-**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (116 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers. A "Live run" tab takes an uploaded transactions CSV and asks the hosted model (133 tests); it needs the model server deployed, see "Live run" below.
+**Status: in progress.** The five docs, the synthetic data generator, the features, the alert summaries, the dataset files and the rules baseline with scoring are done (143 tests). The model has been fine-tuned and scored on validation, test and held-out (table below). The adapter and dataset are published on Hugging Face. The six-step investigator workflow (case files, audit log, guarded exports) and the review app are built and live as a demo (link below), running on saved model answers. A "Live run" tab takes an uploaded transactions CSV and asks the hosted model; it needs the model server deployed, see "Live run" below.
 
 All data is synthetic. No real customer or transaction data is used anywhere. This is a prototype, not certified for any regulator's requirements.
 
@@ -57,8 +57,8 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python -m src.generator       # writes 3,400 synthetic alerts to data/raw/ (about a second)
 python -m src.dataset         # writes data/train.jsonl, validation.jsonl, test.jsonl, heldout.jsonl
-python -m pytest -q           # 133 tests
-python -m src.evaluate        # scores the rules baseline on validation and test
+python -m pytest -q           # 143 tests
+python -m src.evaluate        # scores the rules and the saved model answers on validation and test
 streamlit run app.py          # opens the review app (uses the saved answers in results/)
 ```
 
@@ -95,6 +95,7 @@ aml-alert-investigator/
 │              predict.py review.py review_scores.py (done)
 │              investigator.py case_note.py case_store.py audit.py (done)
 │              evidence.py                                          (finding → rows)
+│              build_space.py publish.py                            (publishing)
 │              upload.py  live.py  remote_model.py  local_model.py       (live run)
 ├─ notebooks/  finetune_qlora.ipynb      (thin Colab wrapper)
 ├─ data/       train, validation, test and held-out sets
