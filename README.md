@@ -118,7 +118,7 @@ This is a prototype. The gaps below are the work between it and something a bank
 
 **Audit store.** Every step, model answer and analyst decision is already logged, but to local JSON lines. A bank needs an append-only store with retention set by policy, where a record cannot be altered after it is written, and the log has to survive the application being redeployed.
 
-**Model validation.** RBI's draft Guidance on Regulatory Principles for Model Risk Management (June 2026, under consultation at the time of writing) extends model governance to AI and ML models used in fraud and AML monitoring, and asks for board-approved
+**Model validation.** RBI's draft Guidance on Regulatory Principles for Model Risk Management (June 2026, under consultation at the time of writing) extends model governance to AI and ML models used in fraud and AML monitoring, and asks for board-approved governance, independent validation and human oversight of model-driven decisions. In practice that means a documented development process, a challenger model and sign-off before use. The rules baseline here is already a working challenger, and the held-out evaluation is already independent of training. What is missing is the documentation and the sign-off.
 
 ## Security and privacy
 
